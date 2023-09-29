@@ -1,0 +1,32 @@
+{
+  "HEADER":{
+    "SEARCH": {
+      "TEXT": "Suche.."
+    }
+  },
+  "MENUITEMS": {
+    "ADMIN": {
+      "HOME": "HomePage",
+      "COMBOGESTIONE": {
+        "TITLE": "Menù Gestione",
+        "OPERATORI": "Gestione Operatori",
+        "OPERATORIFR": "Gestione Operatori FR",
+        "CLIENTI": "Gestione Clienti",
+        "RICHIESTE": "Gestione Richieste"
+      },
+      "COMBOSISTEMA": {
+        "TITLE": "Sistema",
+        "LOGSISTEMA": "Log Utenti",
+        "LOGRICHIESTE": "Log Ticket"
+      }
+    },
+
+    "USER": {
+      "HOME": "HomePage"
+    },
+
+    "TITLES": {
+      "MAIN" : "Lista Operazioni"
+    }
+  }
+}

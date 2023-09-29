@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Event, Router, NavigationStart, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,19 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'TicketingApp';
+  public title="TicketingApp";
+  currentUrl!: string;
+  constructor(public _router: Router) {
+    this._router.events.subscribe((routerEvent: Event) => {
+      if (routerEvent instanceof NavigationStart) {
+        this.currentUrl = routerEvent.url.substring(
+          routerEvent.url.lastIndexOf('/') + 1
+        );
+      }
+      if (routerEvent instanceof NavigationEnd) {
+        /* empty */
+      }
+      window.scrollTo(0, 0);
+    });
+  }
 }
