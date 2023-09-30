@@ -1,6 +1,6 @@
-import { Direction } from '@angular/cdk/bidi';
-import { Component, Inject, Renderer2 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import {Direction} from '@angular/cdk/bidi';
+import {Component, Inject, Renderer2} from '@angular/core';
+import {DOCUMENT} from '@angular/common';
 import {InConfiguration} from "../../../core/model/config.interface";
 import {DirectionService} from "../../../core/services/direction.service";
 import {ConfigService} from "../../../config";
@@ -32,7 +32,7 @@ export class AuthLayoutComponent {
           }
         } else {
           if (this.config) {
-            if (this.config.layout.rtl === true) {
+            if (this.config.layout.rtl) {
               this.direction = 'rtl';
               localStorage.setItem('isRtl', 'true');
             } else {

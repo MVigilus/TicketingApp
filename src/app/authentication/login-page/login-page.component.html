@@ -17,7 +17,7 @@
                   <input matInput formControlName="username" />
                   <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
                   <mat-error *ngIf="authForm.get('username')?.hasError('required')">
-                    Username is required
+                    Per favore Inserire lo Username
                   </mat-error>
                 </mat-form-field>
               </div>
@@ -33,7 +33,7 @@
                       {{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                   </a>
                   <mat-error *ngIf="authForm.get('password')?.hasError('required')">
-                    Password is required
+                    Per favore inserire la Password
                   </mat-error>
                 </mat-form-field>
               </div>

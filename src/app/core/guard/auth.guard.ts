@@ -9,7 +9,6 @@ export class AuthGuard  {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log("INFOOOOO "+JSON.stringify(this.authService.currentUserValue))
     if (this.authService.currentUserValue && JSON.stringify(this.authService.currentUserValue)!="{}") {
       return true;
     }

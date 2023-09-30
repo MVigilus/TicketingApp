@@ -1,8 +1,9 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {Page404Component} from "../wildcard/page404/page404.component";
 import {HomeComponent} from "./home/home.component";
-import {AuthGuard} from "../core/guard/auth.guard";
+import {HomeAdminComponent} from "./home-admin/home-admin.component";
+import {AdminGuard} from "@core/guard/admin.guard";
 
 const routes: Routes = [
   {
@@ -14,7 +15,11 @@ const routes: Routes = [
     path: "HomePage",
     component: HomeComponent,
   },
-
+  {
+    path: "HomePageAdmin",
+    component: HomeAdminComponent,
+    canActivate: [AdminGuard]
+  },
   { path: "**", component: Page404Component },
 ];
 

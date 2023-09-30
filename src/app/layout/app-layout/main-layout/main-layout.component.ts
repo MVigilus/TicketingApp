@@ -33,7 +33,7 @@ export class MainLayoutComponent {
           }
         } else {
           if (this.config) {
-            if (this.config.layout.rtl === true) {
+            if (this.config.layout.rtl) {
               this.direction = 'rtl';
               localStorage.setItem('isRtl', 'true');
             } else {
@@ -103,7 +103,7 @@ export class MainLayoutComponent {
         this.setLTRSettings();
       }
     } else {
-      if (this.config.layout.rtl == true) {
+      if (this.config.layout.rtl) {
         this.setRTLSettings();
       } else {
         this.setLTRSettings();
@@ -154,7 +154,7 @@ export class MainLayoutComponent {
         this.renderer.addClass(this.document.body, 'submenu-closed');
       }
     } else {
-      if (this.config.layout.sidebar.collapsed == true) {
+      if (this.config.layout.sidebar.collapsed) {
         this.renderer.addClass(this.document.body, 'side-closed');
         this.renderer.addClass(this.document.body, 'submenu-closed');
         localStorage.setItem('collapsed_menu', 'true');

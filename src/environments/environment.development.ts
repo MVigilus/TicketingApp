@@ -14,7 +14,8 @@ export const environment = {
       getAll:"operator/getall",
     },
     ticketing:{
-      checkCliente:"ticketing/checkCliente"
+      checkCliente: "ticketing/checkCliente",
+      insertTicket: "ticketing/insertTicket"
     }
   }
 };

@@ -10,6 +10,8 @@ import {InConfiguration} from "@core/model/config.interface";
 import {DirectionService} from "@core/services/direction.service";
 import {ConfigService} from "@config";
 import {TicketService} from "@core/services/ticketing/ticket.service";
+import {TicketReq} from "@core/model/ticketing/TicketReq";
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -187,16 +189,45 @@ export class TicketLayoutComponent extends UnsubscribeOnDestroyAdapter
   ngOnInit(): void {
     this.ticketForm=this.fb.group({
       nominativo:['',Validators.required],
-      codiceCliente:[this.route.snapshot.paramMap.get("id"),Validators.required],
-      corpo:['',Validators.required]
+      codice: [this.route.snapshot.paramMap.get("id"), Validators.required],
+      telefono: ['', [Validators.required, Validators.pattern("^(\\((00|\\+)39\\)|(00|\\+)39)?(38[890]|34[7-90]|36[680]|33[3-90]|32[89])\\d{7}$")]],
+      descrizione: ['', Validators.required],
+      mail: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9.!#$%&\'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$')]]
     });
-
-    this.f['mail']?.disable()
 
 
   }
 
   onSubmit() {
-    console.log(this.ticketForm.value);
+    if (this.ticketForm.invalid) {
+      return;
+    } else {
+      var ticket = new TicketReq(this.ticketForm.value)
+      this.subs.sink = this.ticketingservice
+        .InsertTicket(ticket)
+        .subscribe({
+          next: (res) => {
+            if (res) {
+              Swal.fire({
+                icon: 'success',
+                title: 'Ticket Inviato con successo',
+                text: res.message,
+                footer: '',
+              });
+            }
+          },
+          error: (error) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong!',
+              footer: '' +
+                '',
+            });
+          },
+        });
+    }
   }
+
+  protected readonly JSON = JSON;
 }
