@@ -1,12 +1,12 @@
 import {Component, ElementRef, Inject, OnInit, Renderer2} from '@angular/core';
 import {UnsubscribeOnDestroyAdapter} from "../../utils/UnsubscribeOnDestroyAdapter";
-import {InConfiguration} from "../../core/model/config.interface";
+import {InConfiguration} from "@core/model/config.interface";
 import {DOCUMENT} from "@angular/common";
-import {ConfigService} from "../../config";
-import {AuthService} from "../../core/services/auth.service";
+import {ConfigService} from "@config";
+import {AuthService} from "@core/services/auth.service";
 import {Router} from "@angular/router";
-import {LanguageService} from "../../core/services/language-service.service";
-import {Notifications} from "../../core/model/Notifications";
+import {LanguageService} from "@core/services/language-service.service";
+import {Notifications} from "@core/model/Notifications";
 
 @Component({
   selector: 'app-header',
@@ -46,7 +46,8 @@ export class HeaderComponent
     { text: 'German', flag: 'assets/images/flags/germany.jpg', lang: 'de' },
     { text: 'Italiano', flag: 'assets/images/flags/italy.jpg', lang: 'it' }
   ];
-  notifications: Notifications[] = [
+
+    notifications: Notifications[] = [
     {
       message: 'Please check your mail',
       time: '14 mins ago',

@@ -1,6 +1,6 @@
 import {Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, Renderer2} from '@angular/core';
 import {DOCUMENT} from "@angular/common";
-import {AuthService} from "../../core/services/auth.service";
+import {AuthService} from "@core/services/auth.service";
 import {NavigationEnd, Router} from "@angular/router";
 import {RouteInfo} from "./RouteMetadata";
 import {ROUTES, ROUTESADMIN} from "./sidebar-items";

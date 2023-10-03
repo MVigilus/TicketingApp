@@ -1,8 +1,7 @@
 import {RouterModule, Routes} from "@angular/router";
 import {NgModule} from "@angular/core";
-import {AuthGuard} from "./core/guard/auth.guard";
+import {AuthGuard} from "@core/guard/auth.guard";
 import {Page404Component} from "./wildcard/page404/page404.component";
-import {AuthService} from "./core/services/auth.service";
 import {ClienteNotFoundComponent} from "./wildcard/cliente-not-found/cliente-not-found.component";
 import {TicketLayoutComponent} from "./layout/app-layout/ticket-layout/ticket-layout.component";
 import {MainLayoutComponent} from "./layout/app-layout/main-layout/main-layout.component";

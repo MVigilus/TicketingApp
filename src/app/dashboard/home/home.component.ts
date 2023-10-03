@@ -11,6 +11,8 @@ import Swal from "sweetalert2";
 import {TicketResumeOperatore} from "@core/model/ticketing/ticketResumeOperatore";
 import {MatSort} from "@angular/material/sort";
 import {MatSelectChange} from "@angular/material/select";
+import {MatDialog} from "@angular/material/dialog";
+import {ModalTicketViewComponent} from "../../utils/components/modals/modal-ticket-view/modal-ticket-view.component";
 
 export interface EmpFilter {
   name: string;
@@ -48,6 +50,7 @@ export class HomeComponent extends UnsubscribeOnDestroyAdapter
     private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    public dialog: MatDialog,
     private authService: AuthService,
     private homeservice: HomeService
 
@@ -64,7 +67,7 @@ export class HomeComponent extends UnsubscribeOnDestroyAdapter
     this.empFilters.push({name: 'cliente', options: clienti, defaultValue: 'Filtra per ...'});
     this.empFilters.push({
       name: 'status',
-      options: ['Filtra per ...', 'APERTO', 'In Lavorazione', 'CHIUSO'],
+      options: ['Filtra per ...', 'APERTO', 'IN_LAVORAZIONE', 'CHIUSO'],
       defaultValue: 'Filtra per ...'
     });
 
@@ -74,7 +77,7 @@ export class HomeComponent extends UnsubscribeOnDestroyAdapter
     this.subs.sink = this.homeservice.getOperatoreResume(this.authService.currentUserValue.clienti).subscribe({
       next: (res) => {
         if (res) {
-          console.log(res)
+          //console.log(res)
           this.operatoreResume = res.ticketResumeOperatore;
           this.dataSource.data = res.ticketElementTable;
           this.dataSource.paginator = this.paginator;
@@ -143,30 +146,30 @@ export class HomeComponent extends UnsubscribeOnDestroyAdapter
 
   }
 
-  UpdateStatus(id: number) {
+  UpdateStatus(element: TicketTableElement) {
 
-    this.subs.sink = this.homeservice.updateStatusTicket(id).subscribe({
-      next: (res: any) => {
-        if (res) {
-          this.loadDataTabble()
-          Swal.fire({
-            icon: 'success',
-            title: 'Operazione effettuata con successo',
-            text: res.message,
-            footer: '',
-          });
-        }
-      },
-      error: () => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Something went wrong!',
-          footer: '' +
-            '',
-        });
-      },
+    console.log("ELEMENT :::: " + element)
+
+    const dialogRef = this.dialog.open(ModalTicketViewComponent, {
+      data: {element},
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadDataTabble()
+    });
+
+
   }
 
+  getElementBadge(status: string) {
+    switch (status) {
+      case "CHIUSO":
+        return "badge badge-solid-red"
+      case "APERTO":
+        return "badge badge-solid-green"
+      case "IN_LAVORAZIONE":
+        return "badge badge-solid-orange"
+    }
+    return "";
+  }
 }

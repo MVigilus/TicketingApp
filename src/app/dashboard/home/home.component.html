@@ -88,7 +88,10 @@
                     </mat-select>
                   </th>
 
-                  <td *matCellDef="let element" mat-cell> {{element.status}} </td>
+                  <td *matCellDef="let element" mat-cell>
+                    <div [ngClass]="getElementBadge(element.status)"
+                         class="badge badge-solid-red">{{(element.status === "IN_LAVORAZIONE") ? "In Lavorazione" : element.status}}</div>
+                  </td>
                 </ng-container>
                 <ng-container matColumnDef="date">
                   <th *matHeaderCellDef mat-header-cell mat-sort-header> Data apertura</th>
@@ -97,7 +100,7 @@
                 <ng-container matColumnDef="action">
                   <th *matHeaderCellDef mat-header-cell> Azioni</th>
                   <td mat-cell>
-                    <button (click)="UpdateStatus(element.id)" *matCellDef="let element" class="tbl-action-btn"
+                    <button (click)="UpdateStatus(element)" *matCellDef="let element" class="tbl-action-btn"
                             color="accent"
                             mat-icon-button>
                       <app-feather-icons [class]="'tbl-fav-edit'" [icon]="'edit'"></app-feather-icons>
