@@ -47,7 +47,7 @@ export class TicketLayoutComponent extends UnsubscribeOnDestroyAdapter
       next:(res:ClienteTicket)=>{
         this.cliente=res;
       },
-      error:err=>{
+      error: () => {
         this.router.navigate(['/clienteNotFound']);
       }
     })
@@ -67,7 +67,7 @@ export class TicketLayoutComponent extends UnsubscribeOnDestroyAdapter
           }
         } else {
           if (this.config) {
-            if (this.config.layout.rtl === true) {
+            if (this.config.layout.rtl) {
               this.direction = 'rtl';
               localStorage.setItem('isRtl', 'true');
             } else {
@@ -140,7 +140,7 @@ export class TicketLayoutComponent extends UnsubscribeOnDestroyAdapter
         this.setLTRSettings();
       }
     } else {
-      if (this.config.layout.rtl == true) {
+      if (this.config.layout.rtl) {
         this.setRTLSettings();
       } else {
         this.setLTRSettings();
@@ -180,13 +180,13 @@ export class TicketLayoutComponent extends UnsubscribeOnDestroyAdapter
     localStorage.setItem('isRtl', 'false');
   }
 
-  private id:number=0;
 
   get f() {
     return this.ticketForm.controls;
   }
 
   ngOnInit(): void {
+    localStorage.clear()
     this.ticketForm=this.fb.group({
       nominativo:['',Validators.required],
       codice: [this.route.snapshot.paramMap.get("id"), Validators.required],
@@ -216,7 +216,7 @@ export class TicketLayoutComponent extends UnsubscribeOnDestroyAdapter
               });
             }
           },
-          error: (error) => {
+          error: () => {
             Swal.fire({
               icon: 'error',
               title: 'Oops...',

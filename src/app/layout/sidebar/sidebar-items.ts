@@ -39,7 +39,7 @@ export const ROUTESADMIN: RouteInfo[] = [
     submenu: [],
   },
   {
-    path: 'dashboard/HomePage',
+    path: 'dashboard/HomePageAdmin',
     title: 'MENUITEMS.ADMIN.HOME',
     iconType: 'feather',
     icon: 'home',

@@ -16,6 +16,11 @@ export const environment = {
     ticketing:{
       checkCliente: "ticketing/checkCliente",
       insertTicket: "ticketing/insertTicket"
+    },
+    operatoreService: {
+      getResumeOperatore: "operator/getResumeOperatore",
+      updateTicketStatus: "operator/updateTicketStatus"
+
     }
   }
 };
