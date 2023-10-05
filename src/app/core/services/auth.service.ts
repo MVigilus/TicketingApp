@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
-import { map } from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {User} from "../model/User";
 
 
@@ -46,5 +46,15 @@ export class AuthService {
     localStorage.clear();
     this.currentUserSubject.next(this.currentUserValue);
     return of({ success: false });
+  }
+
+  CheckJwt() {
+    return this.http.post<boolean>(`${environment.apiUrl}/${environment.servizi.auth.checkJWT}`, this.currentUserValue.token).pipe(
+      map((res) => {
+        return res;
+      })
+    );
+    // Use RxJS interval operator to execute the HTTP request every minute
+
   }
 }

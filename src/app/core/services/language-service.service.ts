@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LanguageService {
-  public languages: string[] = ['en', 'es', 'de','it'];
+  public languages: string[] = ['it'];
 
   constructor(public translate: TranslateService) {
     let browserLang: string;

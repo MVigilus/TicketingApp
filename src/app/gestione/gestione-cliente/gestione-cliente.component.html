@@ -14,7 +14,8 @@
               </li>
               <li class="tbl-search-box">
                 <label for="search-input"><i class="material-icons search-icon">search</i></label>
-                <input #filter aria-label="Search box" class="browser-default search-field" placeholder="Cerca"
+                <input (input)="loadDataTabble()" [(ngModel)]="searchValue" aria-label="Search box"
+                       class="browser-default search-field" placeholder="Cerca"
                        type="text">
               </li>
             </ul>
@@ -70,12 +71,15 @@
               <td *matCellDef="let element" mat-cell>{{element.alias}}</td>
             </ng-container>
             <ng-container matColumnDef="action">
-              <th *matHeaderCellDef mat-header-cell>Azioni</th>
-              <td mat-cell>
-                <button (click)="UpdateStatus(element)" *matCellDef="let element" class="tbl-action-btn"
-                        color="accent"
+              <th *matHeaderCellDef mat-header-cell width="10%">Azioni</th>
+              <td *matCellDef="let element" mat-cell>
+                <button (click)="UpdateStatus(element)" class="tbl-action-btn" color="accent"
                         mat-icon-button>
                   <app-feather-icons [class]="'tbl-fav-edit'" [icon]="'edit'"></app-feather-icons>
+                </button>
+                <button (click)="DeleteCliente(element)" class="tbl-action-btn" color="accent"
+                        mat-icon-button>
+                  <app-feather-icons [class]="'tbl-fav-delete'" [icon]="'trash-2'"></app-feather-icons>
                 </button>
               </td>
             </ng-container>

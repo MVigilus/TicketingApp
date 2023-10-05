@@ -8,7 +8,8 @@ export const environment = {
   servizi:{
     auth:{
       login:"auth/login",
-      logout:"auth/logout"
+      logout: "auth/logout",
+      checkJWT: "auth/checkJWT"
     },
     api:{
       getAll:"operator/getall",
@@ -26,8 +27,9 @@ export const environment = {
       getAllClientiCodes: "admin/getAllClientiCodes",
       getAllOperatore: "admin/getAllOperatore",
       getAllCliente: "admin/getAllCliente",
-      insertCliente: "admin/insertCliente"
-
+      insertCliente: "admin/insertCliente",
+      deleteCliente: "admin/deleteCliente",
+      getAllTicketAdmin: "admin/getAllTicketAdmin"
     }
   }
 };

@@ -4,9 +4,89 @@
       <app-breadcrumb [active_item]="'Gestione Operatore'" [items]="['Gestione']"
                       [title]="'Gestione Operatori'"></app-breadcrumb>
     </div>
-    <div class="row">
-
-    </div>
+    <!--<div class="row">
+      <div class="card">
+        <div class="materialTableHeader">
+          <div class="left">
+            <ul class="header-buttons-left ms-0">
+              <li class="tbl-title">
+                <h2>Filtra per valore</h2>
+              </li>
+              <li class="tbl-search-box">
+                <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                <input #filter aria-label="Search box" class="browser-default search-field" placeholder="Cerca"
+                       type="text">
+              </li>
+            </ul>
+          </div>
+          <div class="right">
+            <ul class="tbl-export-btn">
+              <li class="tbl-header-btn">
+                <div class="m-l-10" matTooltip="ADD">
+                  <button (click)="addNew()" color="primary" mat-mini-fab>
+                    <mat-icon class="col-white">add</mat-icon>
+                  </button>
+                </div>
+              </li>
+              <li class="tbl-header-btn">
+                <div class="m-l-10" matTooltip="REFRESH">
+                  <button (click)="loadDataTabble()" color="primary" mat-mini-fab>
+                    <mat-icon class="col-white">refresh</mat-icon>
+                  </button>
+                </div>
+              </li>
+              &lt;!&ndash;<li>
+                <div class="export-button m-l-10" matTooltip="XLSX">
+                  <img src="assets/images/icons/xlsx.png" alt="" (click)="exportExcel()" />
+                </div>
+              </li>&ndash;&gt;
+            </ul>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table [dataSource]="dataSource" class="w-100" mat-table matSort>
+            <ng-container matColumnDef="codice">
+              <th *matHeaderCellDef mat-header-cell> Codice Cliente</th>
+              <td *matCellDef="let element" mat-cell> {{element.codice}} </td>
+            </ng-container>
+            <ng-container matColumnDef="riferimento">
+              <th *matHeaderCellDef mat-header-cell mat-sort-header> Riferimento</th>
+              <td *matCellDef="let element" mat-cell> {{element.riferimento}} </td>
+            </ng-container>
+            <ng-container matColumnDef="ragioneSociale">
+              <th *matHeaderCellDef mat-header-cell mat-sort-header> Ragione Sociale</th>
+              <td *matCellDef="let element" mat-cell> {{element.ragioneSociale}} </td>
+            </ng-container>
+            <ng-container matColumnDef="telefono">
+              <th *matHeaderCellDef mat-header-cell> Telefono</th>
+              <td *matCellDef="let element" mat-cell> {{element.telefono}} </td>
+            </ng-container>
+            <ng-container matColumnDef="mail">
+              <th *matHeaderCellDef mat-header-cell> Email riferimento</th>
+              <td *matCellDef="let element" mat-cell>{{element.email}}</td>
+            </ng-container>
+            <ng-container matColumnDef="alias">
+              <th *matHeaderCellDef mat-header-cell mat-sort-header>Alias</th>
+              <td *matCellDef="let element" mat-cell>{{element.alias}}</td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+              <th *matHeaderCellDef mat-header-cell>Azioni</th>
+              <td mat-cell>
+                <button (click)="UpdateStatus(element)" *matCellDef="let element" class="tbl-action-btn"
+                        color="accent"
+                        mat-icon-button>
+                  <app-feather-icons [class]="'tbl-fav-edit'" [icon]="'edit'"></app-feather-icons>
+                </button>
+              </td>
+            </ng-container>
+            <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+            <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons>
+          </mat-paginator>
+        </div>
+      </div>
+    </div>-->
     <div class="row"></div>
     <div class="row clearfix"></div>
     <div class="row"></div>

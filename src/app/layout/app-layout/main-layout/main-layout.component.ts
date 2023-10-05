@@ -4,13 +4,17 @@ import {InConfiguration} from "@core/model/config.interface";
 import {DOCUMENT} from "@angular/common";
 import {DirectionService} from "@core/services/direction.service";
 import {ConfigService} from "@config";
+import {interval} from "rxjs";
+import {UnsubscribeOnDestroyAdapter} from "../../../utils/UnsubscribeOnDestroyAdapter";
+import {AuthService} from "@core/services/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main-layout.component.html',
   styleUrls: []
 })
-export class MainLayoutComponent {
+export class MainLayoutComponent extends UnsubscribeOnDestroyAdapter {
 
   direction!: Direction;
   public config!: InConfiguration;
@@ -18,8 +22,11 @@ export class MainLayoutComponent {
     private directoryService: DirectionService,
     private configService: ConfigService,
     @Inject(DOCUMENT) private document: Document,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private router: Router,
+    private authService: AuthService
   ) {
+    super()
     this.config = this.configService.configData;
     this.directoryService.currentData.subscribe((currentData) => {
       if (currentData) {
@@ -46,6 +53,7 @@ export class MainLayoutComponent {
     });
   }
   ngAfterViewInit(): void {
+    this.executeHttpRequestEveryMinute();
     //------------ set varient start----------------
     if (localStorage.getItem('theme')) {
       this.renderer.removeClass(this.document.body, this.config.layout.variant);
@@ -179,6 +187,30 @@ export class MainLayoutComponent {
     this.renderer.removeClass(this.document.body, 'rtl');
 
     localStorage.setItem('isRtl', 'false');
+  }
+
+  executeHttpRequestEveryMinute() {
+    console.log("ISJWTNOTEXPIREDORNOTEXCLUDED INIT  ")
+
+    this.subs.sink = interval(60000).subscribe(() => {
+      this.authService.CheckJwt().subscribe({
+        next: res => {
+          console.log("ISJWTNOTEXPIREDORNOTEXCLUDED : " + res)
+          if (!res) {
+            this.authService.logout();
+            this.router.navigate(['/authentication/signin']);
+          }
+
+        },
+        error: res => {
+          this.authService.logout();
+
+        }
+      })
+
+
+    });
+
   }
 
 }

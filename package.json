@@ -47,6 +47,7 @@
     "chart.js": "^4.3.2",
     "core-js": "^3.32.0",
     "echarts": "^5.4.3",
+    "material-icons": "^1.13.12",
     "moment": "^2.29.4",
     "ng-apexcharts": "^1.8.0",
     "ng2-charts": "^5.0.1",
