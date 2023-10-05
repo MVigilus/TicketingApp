@@ -1,1 +1,6 @@
-<p>admin-layout works!</p>
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div [dir]="direction">
+  <router-outlet></router-outlet>
+</div>

@@ -51,7 +51,12 @@ export class LoginPageComponent extends UnsubscribeOnDestroyAdapter
               if (res) {
                 const token = this.authService.currentUserValue.token;
                 if (token) {
-                  this.router.navigate(['/dashboard/HomePage']);
+
+                  if (this.authService.currentUserValue.admin) {
+                    this.router.navigate(['/dashboard/HomePageAdmin']);
+                  } else {
+                    this.router.navigate(['/dashboard/HomePage']);
+                  }
                 }
               } else {
                 this.error = 'Invalid Login';

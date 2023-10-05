@@ -46,6 +46,7 @@ export class TicketLayoutComponent extends UnsubscribeOnDestroyAdapter
     this.subs.sink = this.ticketingservice.ClienteExist(this.route.snapshot.paramMap.get("id")).subscribe({
       next:(res:ClienteTicket)=>{
         this.cliente=res;
+        console.log(res);
       },
       error: () => {
         this.router.navigate(['/clienteNotFound']);

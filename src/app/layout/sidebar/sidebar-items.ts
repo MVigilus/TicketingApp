@@ -60,7 +60,7 @@ export const ROUTESADMIN: RouteInfo[] = [
     badgeClass: '',
     submenu: [
       {
-        path: 'dashboard/HomePage2',
+        path: 'gestione/gestioneOperatore',
         title: 'MENUITEMS.ADMIN.COMBOGESTIONE.OPERATORI',
         iconType: '',
         icon: '',
@@ -71,7 +71,7 @@ export const ROUTESADMIN: RouteInfo[] = [
         submenu: [],
       },
       {
-        path: 'dashboard/dashboard2',
+        path: 'gestione/gestioneOperatoreFR',
         title: 'MENUITEMS.ADMIN.COMBOGESTIONE.OPERATORIFR',
         iconType: '',
         icon: '',
@@ -82,7 +82,7 @@ export const ROUTESADMIN: RouteInfo[] = [
         submenu: [],
       },
       {
-        path: 'dashboard/dashboard2',
+        path: 'gestione/gestioneCliente',
         title: 'MENUITEMS.ADMIN.COMBOGESTIONE.CLIENTI',
         iconType: '',
         icon: '',
@@ -93,7 +93,7 @@ export const ROUTESADMIN: RouteInfo[] = [
         submenu: [],
       },
       {
-        path: 'dashboard/dashboard2',
+        path: 'gestione/gestioneRichieste',
         title: 'MENUITEMS.ADMIN.COMBOGESTIONE.RICHIESTE',
         iconType: '',
         icon: '',

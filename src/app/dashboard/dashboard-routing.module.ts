@@ -4,6 +4,7 @@ import {Page404Component} from "../wildcard/page404/page404.component";
 import {HomeComponent} from "./home/home.component";
 import {HomeAdminComponent} from "./home-admin/home-admin.component";
 import {AdminGuard} from "@core/guard/admin.guard";
+import {ProfileComponent} from "./profile/profile.component";
 
 const routes: Routes = [
   {
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path: "HomePage",
     component: HomeComponent,
+  },
+  {
+    path: "profile",
+    component: ProfileComponent,
   },
   {
     path: "HomePageAdmin",

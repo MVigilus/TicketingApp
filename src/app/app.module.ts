@@ -25,6 +25,11 @@ import {AdminLayoutComponent} from "./layout/app-layout/admin-layout/admin-layou
 import {MainLayoutComponent} from "./layout/app-layout/main-layout/main-layout.component";
 import {AuthLayoutComponent} from "./layout/app-layout/auth-layout/auth-layout.component";
 import {TicketLayoutComponent} from "./layout/app-layout/ticket-layout/ticket-layout.component";
+import {GestioneOperatoreComponent} from './gestione/gestione-operatore/gestione-operatore.component';
+import {GestioneOperatoreFRComponent} from './gestione/gestione-operatore-fr/gestione-operatore-fr.component';
+import {GestioneClienteComponent} from './gestione/gestione-cliente/gestione-cliente.component';
+import {GestioneRichiesteComponent} from './gestione/gestione-richieste/gestione-richieste.component';
+import {ComponentsModule} from "./utils/components/components.module";
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -41,7 +46,11 @@ export function createTranslateLoader(http: HttpClient) {
     AuthLayoutComponent,
     MainLayoutComponent,
     AdminLayoutComponent,
-    TicketLayoutComponent
+    TicketLayoutComponent,
+    GestioneOperatoreComponent,
+    GestioneOperatoreFRComponent,
+    GestioneClienteComponent,
+    GestioneRichiesteComponent
   ],
   imports: [
     BrowserModule,
@@ -61,6 +70,7 @@ export function createTranslateLoader(http: HttpClient) {
     CoreModule,
     SharedModule,
     CKEditorModule,
+    ComponentsModule,
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

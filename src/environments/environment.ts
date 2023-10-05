@@ -16,6 +16,13 @@ export const environment = {
     operatoreService: {
       getResumeOperatore: "operator/getResumeOperatore",
       updateTicketStatus: "operator/updateTicketStatus"
+    },
+    adminService: {
+      getAllClientiCodes: "admin/getAllClientiCodes",
+      getAllOperatore: "admin/getAllOperatore",
+      getAllCliente: "admin/getAllCliente",
+      insertCliente: "admin/insertCliente"
+
     }
   }
 };
