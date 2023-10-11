@@ -13,6 +13,9 @@ import {MatSort} from "@angular/material/sort";
 import {MatSelectChange} from "@angular/material/select";
 import {MatDialog} from "@angular/material/dialog";
 import {ModalTicketViewComponent} from "../../utils/components/modals/modal-ticket-view/modal-ticket-view.component";
+import {
+  AdvanceTicketLavorazioneComponent
+} from "../../utils/components/modals/advance-ticket-lavorazione/advance-ticket-lavorazione.component";
 
 export interface EmpFilter {
   name: string;
@@ -33,12 +36,15 @@ export class HomeComponent extends UnsubscribeOnDestroyAdapter
   empFilters: EmpFilter[] = [];
 
   displayedColumns: string[] = [
+    'date',
     'nominativo',
     'cliente',
     'email',
     'telefono',
+    'NoteOperatore',
+    'dataPresaInCarico',
+    'dataChiusura',
     'status',
-    'date',
     'action',
   ];
   dataSource!: MatTableDataSource<TicketTableElement>;
@@ -127,9 +133,7 @@ export class HomeComponent extends UnsubscribeOnDestroyAdapter
 
     logout(){
       this.authService.logout().subscribe((res) => {
-        if (!res.success) {
-          this.router.navigate(['/authentication/signin']);
-        }
+        this.router.navigate(['/authentication/signin']);
       });
     }
 
@@ -171,5 +175,47 @@ export class HomeComponent extends UnsubscribeOnDestroyAdapter
         return "badge badge-solid-orange"
     }
     return "";
+  }
+
+  UpdateLavorazione(element: TicketTableElement) {
+    console.log("CCCCCCCCCCCCCC")
+    console.log(element)
+    const dialogRef = this.dialog.open(AdvanceTicketLavorazioneComponent, {
+      data: {element},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadDataTabble()
+    });
+  }
+
+  UpdateChiuso(element: TicketTableElement) {
+    Swal.fire({
+      title: 'Sei Sicuro?',
+      text: "Vuoi Evadere il ticket selezionato?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Procedi',
+      cancelButtonText: "Annulla"
+    }).then((result) => {
+      if (result.value) {
+        this.homeservice.updateStatusTickeChiuso(element).subscribe({
+          next: res => {
+            Swal.fire('Ticket Chiuso!', 'Il ticket è stato evaso con successo', 'success');
+          },
+          error: res => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Qualcosa è andato Storto!',
+              footer: '' +
+                '',
+            });
+          }
+        })
+      }
+    });
   }
 }

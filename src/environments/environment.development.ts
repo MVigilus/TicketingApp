@@ -20,16 +20,22 @@ export const environment = {
     },
     operatoreService: {
       getResumeOperatore: "operator/getResumeOperatore",
-      updateTicketStatus: "operator/updateTicketStatus"
-
+      updateTicketStatus: "operator/updateTicketStatus",
+      updateTicketStatusLav: "operator/updateTicketStatusLav",
+      updateTicketStatusChiuso: "operator/updateTicketStatusChiuso"
     },
     adminService: {
       getAllClientiCodes: "admin/getAllClientiCodes",
+      getAllImpiegatoName: "admin/getAllImpiegatoName",
       getAllOperatore: "admin/getAllOperatore",
+      getAllOperatoreFR: "admin/getAllOperatoreFR",
       getAllCliente: "admin/getAllCliente",
+      getDashboardResume: "admin/dashboardGeneraleResume",
       insertCliente: "admin/insertCliente",
       deleteCliente: "admin/deleteCliente",
-      getAllTicketAdmin: "admin/getAllTicketAdmin"
+      deleteOperatore: "admin/FR",
+      getAllTicketAdmin: "admin/getAllTicketAdmin",
+      insertOperatore: "admin/InsertOperatore"
     }
   }
 };

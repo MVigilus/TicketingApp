@@ -26,19 +26,25 @@
                 </mat-form-field>
             </div>
         </div>
+      <div *ngIf="element.element.status === 'IN_LAVORAZIONE'" class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-4">
+          <h3>Descrizione ticket</h3>
+          <ckeditor [config]="{ toolbar: [] }" [data]="element.element.NoteOperatore" [editor]="Editor"
+                    readonly></ckeditor>
+        </div>
+      </div>
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-4">
-                <mat-form-field appearance="outline" class="example-full-width" subscriptSizing="dynamic">
-                    <mat-label>Descrizione</mat-label>
-                  <input [value]="element.element.descrizione" matInput readonly>
-                </mat-form-field>
+              <h3>Descrizione ticket</h3>
+              <ckeditor [config]="{ toolbar: [] }" [data]="element.element.descrizione" [editor]="Editor"
+                        readonly></ckeditor>
             </div>
         </div>
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-4">
-                <button (click)="updateStatus()" class="auth-form-btn"
-                        color="primary" mat-raised-button>Avanza Stato
-                </button>
+              <!--<button (click)="updateStatus()" class="auth-form-btn"
+                      color="primary" mat-raised-button>Avanza Stato
+              </button>-->
             </div>
         </div>
     </div>

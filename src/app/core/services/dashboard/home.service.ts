@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {map} from "rxjs/operators";
 import {OperatoreResume} from "@core/model/ticketing/OperatoreResume";
+import {TicketTableElement} from "@core/model/ticketing/TicketTableElement";
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,28 @@ export class HomeService {
 
   updateStatusTicket(id: number) {
     return this.http.put(`${environment.apiUrl}/${environment.servizi.operatoreService.updateTicketStatus}/` + id, {})
+      .pipe(
+        map((result) => {
+          return result
+        })
+      );
+  }
+
+  updateStatusTicketLavorazione(element: TicketTableElement) {
+    console.log("INSIDE SERVICE")
+    console.log(element)
+    return this.http.post<string>(`${environment.apiUrl}/${environment.servizi.operatoreService.updateTicketStatusLav}`, element)
+      .pipe(
+        map((result) => {
+          return result
+        })
+      );
+  }
+
+  updateStatusTickeChiuso(element: TicketTableElement) {
+    console.log("INSIDE SERVICE")
+    console.log(element)
+    return this.http.post<string>(`${environment.apiUrl}/${environment.servizi.operatoreService.updateTicketStatusChiuso}`, element)
       .pipe(
         map((result) => {
           return result

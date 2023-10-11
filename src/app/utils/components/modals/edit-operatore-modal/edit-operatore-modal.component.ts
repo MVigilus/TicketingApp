@@ -1,7 +1,10 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {UnsubscribeOnDestroyAdapter} from "../../../UnsubscribeOnDestroyAdapter";
-import {HomeService} from "@core/services/dashboard/home.service";
+import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from "@angular/forms";
+import {AdminService} from "@core/services/admin.service";
+import Swal from "sweetalert2";
+import {OperatoreElementTable} from "@core/model/admin/OperatoreElementTable";
 
 
 @Component({
@@ -9,14 +12,107 @@ import {HomeService} from "@core/services/dashboard/home.service";
   templateUrl: './edit-operatore-modal.component.html',
   styleUrls: ['./edit-operatore-modal.component.scss']
 })
-export class EditOperatoreModalComponent extends UnsubscribeOnDestroyAdapter {
+export class EditOperatoreModalComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
 
 
-  constructor(@Inject(MAT_DIALOG_DATA) public element: any
-    , public dialogRef: MatDialogRef<EditOperatoreModalComponent>,
-              public homeservice: HomeService) {
+  action!: string;
+  dialogTitle?: string;
+  isDetails = false;
+  contactsForm!: UntypedFormGroup;
+  operatore!: OperatoreElementTable;
+  formControl = new UntypedFormControl('', [
+    Validators.required,
+    // Validators.email,
+  ]);
+
+  clienti: string[] = [];
+  protected readonly JSON = JSON;
+
+  constructor(
+    public dialogRef: MatDialogRef<EditOperatoreModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public adminservice: AdminService,
+    private fb: UntypedFormBuilder
+  ) {
     super();
-    //console.log("ELEMENTO"+JSON.stringify(element))
+    // Set the defaults
+    this.clienti = data.clienti
+
+    this.action = data.action;
+    if (this.action === 'edit') {
+      this.isDetails = false;
+      this.dialogTitle = data.operatore.nominativo;
+      this.operatore = data.operatore;
+
+    } else {
+      this.isDetails = false;
+      this.dialogTitle = 'Nuovo Operatore';
+      this.operatore = {} as OperatoreElementTable;
+
+    }
+    this.contactsForm = this.createContactForm();
+
+    this.contactsForm?.get('clienti')?.setValue(this.operatore.clienti);
+
+
+    console.log(this.operatore)
   }
 
+  getErrorMessage() {
+    return this.formControl.hasError('required')
+      ? 'Required field'
+      : this.formControl.hasError('email')
+        ? 'Not a valid email'
+        : '';
+  }
+
+  createContactForm(): UntypedFormGroup {
+    return this.fb.group({
+      id: [this.operatore.id],
+      nominativo: [this.operatore.nominativo, Validators.required],
+      email: [this.operatore.email, Validators.required],
+      username: [this.operatore.username, Validators.required],
+      clienti: [this.clienti, Validators.required]
+    });
+  }
+
+  submit() {
+    // emppty stuff
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  public confirmAdd(): void {
+    console.log(this.contactsForm?.getRawValue())
+    this.adminservice.insertOperatore(this.contactsForm?.getRawValue()).subscribe({
+      next: (res: any) => {
+        if (res) {
+          this.dialogRef.close();
+          Swal.fire({
+            icon: 'success',
+            title: 'Operazione effettuata con successo',
+            text: res.message,
+            footer: '',
+          });
+        }
+      },
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!',
+          footer: '' +
+            '',
+        });
+      },
+      complete: () => {
+      }
+    });
+  }
+
+  ngOnInit(): void {
+
+  }
 }

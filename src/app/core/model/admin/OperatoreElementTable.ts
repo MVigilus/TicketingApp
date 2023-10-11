@@ -3,5 +3,5 @@ export interface OperatoreElementTable {
   nominativo: string,
   username: string,
   email: string,
-  cliente: string[]
+  clienti: string[]
 }

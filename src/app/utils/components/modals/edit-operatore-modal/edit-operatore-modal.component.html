@@ -1,0 +1,75 @@
+<div class="addContainer">
+  <div *ngIf="!isDetails" class="contact-form">
+    <div class="modalHeader">
+      <div class="editRowModal">
+        <div class="modalHeader clearfix">
+          <div class="modal-about">
+            {{dialogTitle}}
+          </div>
+        </div>
+      </div>
+      <button (click)="dialogRef.close()" aria-label="Close dialog" class="modal-close-button" mat-icon-button>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div mat-dialog-content>
+      <form (ngSubmit)="submit" [formGroup]="contactsForm!" class="register-form m-4">
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+            <mat-form-field appearance="outline" class="example-full-width mb-3">
+              <mat-label>Nominativo</mat-label>
+              <input formControlName="nominativo" matInput required>
+              <i class="material-icons-two-tone color-icon p-3" matSuffix>face</i>
+              <mat-error *ngIf="contactsForm?.get('nominativo')?.hasError('required')">
+                Campo Obbligatorio *
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+            <mat-form-field appearance="outline" class="example-full-width mb-3">
+              <mat-label>Email</mat-label>
+              <input formControlName="email" matInput required>
+              <i class="material-icons-two-tone color-icon p-3" matSuffix>email</i>
+              <mat-error
+                *ngIf="contactsForm.get('email')?.hasError('required') || contactsForm?.get('email')?.touched">
+                Please enter a valid email address
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+            <mat-form-field appearance="outline" class="example-full-width mb-3">
+              <mat-label>Username</mat-label>
+              <input formControlName="username" matInput type="text">
+              <i class="material-icons-two-tone color-icon p-3" matSuffix>smartphone</i>
+              <mat-error *ngIf="contactsForm?.get('username')?.hasError('required')">
+                Controllare il formato del telefono
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width">
+              <mat-label>Codici Associati</mat-label>
+              <mat-select formControlName="clienti" multiple>
+                <mat-option *ngFor="let topping of clienti" [value]="topping">
+                  {{topping}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+            <div align="end" class="example-button-row">
+              <button (click)="confirmAdd()" [disabled]="!contactsForm.valid" [mat-dialog-close]="1" color="primary"
+                      mat-raised-button>Save
+              </button>
+              <button (click)="onNoClick()" color="warn" mat-raised-button tabindex="-1">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

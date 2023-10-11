@@ -8,4 +8,7 @@ export interface TicketTableElement {
   status: string;
   date: string;
   action: string;
+  dataPresaInCarico: string;
+  NoteOperatore: string;
+  dataChiusura: string
 }

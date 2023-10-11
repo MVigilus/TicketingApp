@@ -4,7 +4,7 @@
       <app-breadcrumb [active_item]="'Gestione Operatore'" [items]="['Gestione']"
                       [title]="'Gestione Operatori'"></app-breadcrumb>
     </div>
-    <!--<div class="row">
+    <div class="row">
       <div class="card">
         <div class="materialTableHeader">
           <div class="left">
@@ -14,7 +14,8 @@
               </li>
               <li class="tbl-search-box">
                 <label for="search-input"><i class="material-icons search-icon">search</i></label>
-                <input #filter aria-label="Search box" class="browser-default search-field" placeholder="Cerca"
+                <input (input)="loadDataTabble()" [(ngModel)]="searchValue" aria-label="Search box"
+                       class="browser-default search-field" placeholder="Cerca"
                        type="text">
               </li>
             </ul>
@@ -35,47 +36,46 @@
                   </button>
                 </div>
               </li>
-              &lt;!&ndash;<li>
+              <!--<li>
                 <div class="export-button m-l-10" matTooltip="XLSX">
                   <img src="assets/images/icons/xlsx.png" alt="" (click)="exportExcel()" />
                 </div>
-              </li>&ndash;&gt;
+              </li>-->
             </ul>
           </div>
         </div>
         <div class="table-responsive">
           <table [dataSource]="dataSource" class="w-100" mat-table matSort>
-            <ng-container matColumnDef="codice">
-              <th *matHeaderCellDef mat-header-cell> Codice Cliente</th>
-              <td *matCellDef="let element" mat-cell> {{element.codice}} </td>
+            <ng-container matColumnDef="nominativo">
+              <th *matHeaderCellDef mat-header-cell>Nominativo Operatore</th>
+              <td *matCellDef="let element" mat-cell> {{element.nominativo}} </td>
             </ng-container>
-            <ng-container matColumnDef="riferimento">
-              <th *matHeaderCellDef mat-header-cell mat-sort-header> Riferimento</th>
-              <td *matCellDef="let element" mat-cell> {{element.riferimento}} </td>
+            <ng-container matColumnDef="email">
+              <th *matHeaderCellDef mat-header-cell mat-sort-header>Email</th>
+              <td *matCellDef="let element" mat-cell> {{element.email}} </td>
             </ng-container>
-            <ng-container matColumnDef="ragioneSociale">
-              <th *matHeaderCellDef mat-header-cell mat-sort-header> Ragione Sociale</th>
-              <td *matCellDef="let element" mat-cell> {{element.ragioneSociale}} </td>
+            <ng-container matColumnDef="username">
+              <th *matHeaderCellDef mat-header-cell mat-sort-header>Username</th>
+              <td *matCellDef="let element" mat-cell> {{element.username}} </td>
             </ng-container>
-            <ng-container matColumnDef="telefono">
-              <th *matHeaderCellDef mat-header-cell> Telefono</th>
-              <td *matCellDef="let element" mat-cell> {{element.telefono}} </td>
-            </ng-container>
-            <ng-container matColumnDef="mail">
-              <th *matHeaderCellDef mat-header-cell> Email riferimento</th>
-              <td *matCellDef="let element" mat-cell>{{element.email}}</td>
-            </ng-container>
-            <ng-container matColumnDef="alias">
-              <th *matHeaderCellDef mat-header-cell mat-sort-header>Alias</th>
-              <td *matCellDef="let element" mat-cell>{{element.alias}}</td>
+            <ng-container matColumnDef="clienti">
+              <th *matHeaderCellDef mat-header-cell>Clienti Associati</th>
+              <td *matCellDef="let element" mat-cell>
+                <ng-container *ngFor="let cliente of element.clienti; let last = last">
+                  {{ cliente }}{{ !last ? ', ' : '' }}
+                </ng-container>
+              </td>
             </ng-container>
             <ng-container matColumnDef="action">
-              <th *matHeaderCellDef mat-header-cell>Azioni</th>
-              <td mat-cell>
-                <button (click)="UpdateStatus(element)" *matCellDef="let element" class="tbl-action-btn"
-                        color="accent"
+              <th *matHeaderCellDef mat-header-cell width="10%">Azioni</th>
+              <td *matCellDef="let element" mat-cell>
+                <button (click)="UpdateStatus(element)" class="tbl-action-btn" color="accent"
                         mat-icon-button>
                   <app-feather-icons [class]="'tbl-fav-edit'" [icon]="'edit'"></app-feather-icons>
+                </button>
+                <button (click)="DeleteCliente(element)" class="tbl-action-btn" color="accent"
+                        mat-icon-button>
+                  <app-feather-icons [class]="'tbl-fav-delete'" [icon]="'trash-2'"></app-feather-icons>
                 </button>
               </td>
             </ng-container>
@@ -86,7 +86,7 @@
           </mat-paginator>
         </div>
       </div>
-    </div>-->
+    </div>
     <div class="row"></div>
     <div class="row clearfix"></div>
     <div class="row"></div>

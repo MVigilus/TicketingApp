@@ -8,7 +8,6 @@ import Swal from "sweetalert2";
 import {MatTableDataSource} from "@angular/material/table";
 import {ClienteElementTable} from "@core/model/admin/ClienteElementTable";
 import {EditClienteModalComponent} from "../../utils/components/modals/edit-cliente-modal/edit-cliente-modal.component";
-import {elements} from "chart.js";
 
 
 @Component({
@@ -36,7 +35,6 @@ export class GestioneClienteComponent extends UnsubscribeOnDestroyAdapter implem
     super();
     this.loadDataTabble()
   }
-  protected readonly elements = elements;
 
   DeleteCliente(element: ClienteElementTable) {
     Swal.fire({

@@ -1,5 +1,15 @@
 <nav #navbar class="navbar active">
   <div class="container-fluid">
+    <div class="collapse navbar-collapse">
+      <ul class="float-start collapse-menu-icon">
+        <li>
+          <button (click)="mobileMenuSidebarOpen($event,'overlay-open')" class="sidemenu-collapse" mat-icon-button>
+            <app-feather-icons [class]="'header-icon'" [icon]="'menu'"></app-feather-icons>
+          </button>
+        </li>
+      </ul>
+    </div>
+
     <div class="collapse navbar-collapse" [ngClass]="isNavbarCollapsed ? '' : 'show'">
       <ul class="nav navbar-nav navbar-right">
         <!-- Full Screen Button -->

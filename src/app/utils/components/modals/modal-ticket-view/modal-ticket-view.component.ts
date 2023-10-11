@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import Swal from "sweetalert2";
 import {HomeService} from "@core/services/dashboard/home.service";
 import {UnsubscribeOnDestroyAdapter} from "../../../UnsubscribeOnDestroyAdapter";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 @Component({
   selector: 'app-modal-ticket-view',
@@ -12,6 +13,7 @@ import {UnsubscribeOnDestroyAdapter} from "../../../UnsubscribeOnDestroyAdapter"
 export class ModalTicketViewComponent extends UnsubscribeOnDestroyAdapter {
 
 
+  public Editor: any = ClassicEditor;
   constructor(@Inject(MAT_DIALOG_DATA) public element: any
       , public dialogRef: MatDialogRef<ModalTicketViewComponent>,
               public homeservice: HomeService) {
@@ -46,4 +48,6 @@ export class ModalTicketViewComponent extends UnsubscribeOnDestroyAdapter {
       },
     });
   }
+
+  protected readonly ClassicEditor = ClassicEditor;
 }

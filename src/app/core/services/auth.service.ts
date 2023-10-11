@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, of} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {map} from 'rxjs/operators';
@@ -45,7 +45,11 @@ export class AuthService {
     // remove user from local storage to log user out
     localStorage.clear();
     this.currentUserSubject.next(this.currentUserValue);
-    return of({ success: false });
+    return this.http.post<string>(`${environment.apiUrl}/${environment.servizi.auth.logout}`, this.currentUserValue.token).pipe(
+      map((res) => {
+        return res;
+      })
+    );
   }
 
   CheckJwt() {

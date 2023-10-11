@@ -66,8 +66,12 @@
                   </th>
                   <td *matCellDef="let element" mat-cell> {{element.cliente}} </td>
                 </ng-container>
+                <ng-container matColumnDef="date">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header> Data Apertura</th>
+                  <td *matCellDef="let element" mat-cell> {{element.date | date:'dd-MM-yyyy'}}</td>
+                </ng-container>
                 <ng-container matColumnDef="nominativo">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header> Aperto Da</th>
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>Nominativo</th>
                   <td *matCellDef="let element" mat-cell> {{element.nominativo}} </td>
                 </ng-container>
                 <ng-container matColumnDef="email">
@@ -77,6 +81,18 @@
                 <ng-container matColumnDef="telefono">
                   <th *matHeaderCellDef mat-header-cell> Telefono</th>
                   <td *matCellDef="let element" mat-cell> {{element.telefono}} </td>
+                </ng-container>
+                <ng-container matColumnDef="dataPresaInCarico">
+                  <th *matHeaderCellDef mat-header-cell> Data presa in carico</th>
+                  <td *matCellDef="let element" mat-cell> {{element.dataPresaInCarico | date:'dd-MM-yyyy'}} </td>
+                </ng-container>
+                <ng-container matColumnDef="NoteOperatore">
+                  <th *matHeaderCellDef mat-header-cell> Note Operatore</th>
+                  <td *matCellDef="let element" mat-cell> {{element.NoteOperatore}} </td>
+                </ng-container>
+                <ng-container matColumnDef="dataChiusura">
+                  <th *matHeaderCellDef mat-header-cell> Note Operatore</th>
+                  <td *matCellDef="let element" mat-cell> {{element.dataChiusura}} </td>
                 </ng-container>
                 <ng-container matColumnDef="status">
                   <th *matHeaderCellDef mat-header-cell> Stato
@@ -93,17 +109,26 @@
                          class="badge badge-solid-red">{{(element.status === "IN_LAVORAZIONE") ? "In Lavorazione" : element.status}}</div>
                   </td>
                 </ng-container>
-                <ng-container matColumnDef="date">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header> Data apertura</th>
-                  <td *matCellDef="let element" mat-cell> {{element.date | date:'dd-MM-yyyy'}}</td>
-                </ng-container>
+
                 <ng-container matColumnDef="action">
                   <th *matHeaderCellDef mat-header-cell> Azioni</th>
-                  <td mat-cell>
-                    <button (click)="UpdateStatus(element)" *matCellDef="let element" class="tbl-action-btn"
+                  <td *matCellDef="let element" mat-cell>
+                    <button (click)="UpdateStatus(element)" class="tbl-action-btn"
                             color="accent"
                             mat-icon-button>
                       <app-feather-icons [class]="'tbl-fav-edit'" [icon]="'edit'"></app-feather-icons>
+                    </button>
+                    <button (click)="UpdateLavorazione(element)" *ngIf="element.status === 'APERTO'"
+                            class="tbl-action-btn"
+                            color="accent"
+                            mat-icon-button>
+                      <app-feather-icons [class]="'tbl-fav-edit'" [icon]="'tool'"></app-feather-icons>
+                    </button>
+                    <button (click)="UpdateChiuso(element)" *ngIf="element.status === 'IN_LAVORAZIONE'"
+                            class="tbl-action-btn"
+                            color="accent"
+                            mat-icon-button>
+                      <app-feather-icons [class]="'tbl-fav-danger'" [icon]="'trash-2'"></app-feather-icons>
                     </button>
                   </td>
                 </ng-container>
