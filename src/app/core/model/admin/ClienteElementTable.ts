@@ -1,9 +1,9 @@
 export interface ClienteElementTable {
-  id: number,
+  id: number|null,
   ragioneSociale: string,
   riferimento: string,
   codice: string,
   telefono: string,
   email: string,
-  alias: string
+  alias: string,
 }

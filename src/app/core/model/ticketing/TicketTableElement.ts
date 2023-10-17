@@ -9,6 +9,7 @@ export interface TicketTableElement {
   date: string;
   action: string;
   dataPresaInCarico: string;
-  NoteOperatore: string;
+  noteOperatore: string;
   dataChiusura: string
+  noteChiusura:string
 }

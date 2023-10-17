@@ -25,12 +25,15 @@ export class GestioneRichiesteComponent extends UnsubscribeOnDestroyAdapter impl
   empFilters: EmpFilter[] = [];
 
   displayedColumns: string[] = [
+    'date',
     'nominativo',
     'cliente',
     'email',
     'telefono',
+    'noteOperatore',
+    'dataPresaInCarico',
+    'dataChiusura',
     'status',
-    'date',
     'action',
   ];
   dataSource!: MatTableDataSource<TicketTableElement>;

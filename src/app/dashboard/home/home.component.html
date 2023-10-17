@@ -53,14 +53,17 @@
             </div>
             <div class="table-responsive">
               <table [dataSource]="dataSource" class="w-100" mat-table matSort>
-                <ng-container matColumnDef="checked">
+                <ng-container matColumnDef="id">
+                  <th *matHeaderCellDef mat-header-cell> N Ticket
+                  </th>
+                  <td *matCellDef="let element" mat-cell> {{element.id}} </td>
                 </ng-container>
                 <ng-container matColumnDef="cliente">
                   <th *matHeaderCellDef mat-header-cell> Cliente
                     <mat-select (selectionChange)="applyEmpFilter($event,empFilters[0])"
                                 [(value)]="empFilters[0].defaultValue">
-                      <mat-option *ngFor="let op of empFilters[0].options" [value]="op">
-                        {{op}}
+                      <mat-option *ngFor="let op of empFilters[0].options; let i = index" [value]="op">
+                        {{StatoSelect[i]}}
                       </mat-option>
                     </mat-select>
                   </th>
@@ -86,13 +89,13 @@
                   <th *matHeaderCellDef mat-header-cell> Data presa in carico</th>
                   <td *matCellDef="let element" mat-cell> {{element.dataPresaInCarico | date:'dd-MM-yyyy'}} </td>
                 </ng-container>
-                <ng-container matColumnDef="NoteOperatore">
+                <ng-container matColumnDef="noteOperatore">
                   <th *matHeaderCellDef mat-header-cell> Note Operatore</th>
-                  <td *matCellDef="let element" mat-cell> {{element.NoteOperatore}} </td>
+                  <td *matCellDef="let element" mat-cell> {{element.noteOperatore}} </td>
                 </ng-container>
                 <ng-container matColumnDef="dataChiusura">
-                  <th *matHeaderCellDef mat-header-cell> Note Operatore</th>
-                  <td *matCellDef="let element" mat-cell> {{element.dataChiusura}} </td>
+                  <th *matHeaderCellDef mat-header-cell>Data Chiusura</th>
+                  <td *matCellDef="let element" mat-cell> {{element.dataChiusura | date:'dd-MM-yyyy'}} </td>
                 </ng-container>
                 <ng-container matColumnDef="status">
                   <th *matHeaderCellDef mat-header-cell> Stato
@@ -128,7 +131,7 @@
                             class="tbl-action-btn"
                             color="accent"
                             mat-icon-button>
-                      <app-feather-icons [class]="'tbl-fav-danger'" [icon]="'trash-2'"></app-feather-icons>
+                      <app-feather-icons [class]="'tbl-fav-danger'" [icon]="'check-circle'"></app-feather-icons>
                     </button>
                   </td>
                 </ng-container>

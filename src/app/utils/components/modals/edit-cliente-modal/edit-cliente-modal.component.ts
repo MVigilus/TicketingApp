@@ -6,6 +6,7 @@ import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} fr
 import {AdminService} from "@core/services/admin.service";
 import {ClienteElementTable} from "@core/model/admin/ClienteElementTable";
 import Swal from "sweetalert2";
+import {InsertClienteModel} from "@core/model/admin/InsertClienteModel";
 
 @Component({
   selector: 'app-edit-cliente-modal',
@@ -22,7 +23,7 @@ export class EditClienteModalComponent extends UnsubscribeOnDestroyAdapter {
   cliente: ClienteElementTable;
   formControl = new UntypedFormControl('', [
     Validators.required,
-    // Validators.email,
+    Validators.email,
   ]);
 
   constructor(
@@ -81,7 +82,6 @@ export class EditClienteModalComponent extends UnsubscribeOnDestroyAdapter {
   }
 
   public confirmAdd(): void {
-    console.log(this.contactsForm?.getRawValue())
     this.adminservice.addCliente(this.contactsForm?.getRawValue()).subscribe({
       next: (res: any) => {
         if (res) {

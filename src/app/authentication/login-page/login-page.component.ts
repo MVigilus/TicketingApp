@@ -24,6 +24,7 @@ export class LoginPageComponent extends UnsubscribeOnDestroyAdapter
     private authService: AuthService
   ) {
     super();
+    localStorage.clear();
   }
 
   ngOnInit() {

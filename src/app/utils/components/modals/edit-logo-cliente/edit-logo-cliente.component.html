@@ -1,0 +1,42 @@
+<div class="addContainer">
+  <div *ngIf="!isDetails" class="contact-form">
+    <div class="modalHeader">
+      <div class="editRowModal">
+        <div class="modalHeader clearfix">
+          <div class="modal-about">
+            {{dialogTitle}}
+          </div>
+        </div>
+      </div>
+      <button (click)="dialogRef.close()" aria-label="Close dialog" class="modal-close-button" mat-icon-button>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div mat-dialog-content>
+      <div class="row" *ngIf="logoUrl">
+        <h2>Logo Attuale</h2>
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <img [src]="logoUrl" class="img-fluid" alt="Logo">
+        </div>
+      </div>
+      <form (ngSubmit)="submit" [formGroup]="contactsForm!" class="register-form m-4">
+        <div class="row clearfix">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+            <mat-label>Aggiorna Logo Cliente</mat-label>
+            <app-file-upload [formControlName]="'file'"></app-file-upload>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+            <div align="end" class="example-button-row">
+              <button (click)="confirmAdd()" [disabled]="!contactsForm?.valid" [mat-dialog-close]="1" color="primary"
+                      mat-raised-button>Save
+              </button>
+              <button (click)="onNoClick()" color="warn" mat-raised-button tabindex="-1">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

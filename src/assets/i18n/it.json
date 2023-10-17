@@ -7,10 +7,11 @@
   "MENUITEMS": {
     "ADMIN": {
       "HOME": "HomePage",
+      "PROFILE": "Profilo",
       "COMBOGESTIONE": {
-        "TITLE": "Menù Gestione",
-        "OPERATORI": "Gestione Operatori",
-        "OPERATORIFR": "Gestione Operatori FR",
+        "TITLE": "Gestione",
+        "OPERATORI": "Operatori",
+        "OPERATORIFR": "Operatori FR",
         "CLIENTI": "Gestione Clienti",
         "RICHIESTE": "Gestione Richieste"
       },
@@ -22,7 +23,8 @@
     },
 
     "USER": {
-      "HOME": "HomePage"
+      "HOME": "HomePage",
+      "PROFILE": "Profilo"
     },
 
     "TITLES": {

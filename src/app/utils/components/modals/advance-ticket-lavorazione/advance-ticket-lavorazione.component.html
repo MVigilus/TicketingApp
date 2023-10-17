@@ -1,0 +1,39 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <div class="modal-about">
+          Ticket Numero {{element.element.id}}
+        </div>
+      </div>
+    </div>
+    <button (click)="dialogRef.close()" aria-label="Close dialog" class="modal-close-button" mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-4">
+        <mat-form-field appearance="outline" class="example-full-width" subscriptSizing="dynamic">
+          <mat-label>Nominativo </mat-label>
+          <input [value]="element.element.nominativo" matInput readonly>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-4">
+        <mat-form-field appearance="outline" class="example-full-width" subscriptSizing="dynamic">
+          <mat-label>Note Lavorazione Ticket</mat-label>
+          <textarea [value]="element.element.noteOperatore" [(ngModel)]="element.element.noteOperatore" matInput></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-4">
+        <button (click)="updateStatus()" class="auth-form-btn"
+                color="primary" mat-raised-button>Passa Ticket in Lavorazione
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

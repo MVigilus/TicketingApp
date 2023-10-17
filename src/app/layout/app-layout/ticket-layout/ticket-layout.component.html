@@ -1,75 +1,82 @@
 <div [dir]="direction">
-
-  <section class="content">
-    <div class="content-block">
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
-          <div class="card">
-            <div class="boxs mail_listing">
-              <div class="inbox-center table-responsive">
-                <table class="table table-hover">
-                  <thead>
-                  <tr>
-                    <th colspan="1">
-                      <div class="inbox-header">
-                        Apertura Ticket {{cliente.ragioneSociale}}
-                      </div>
-                    </th>
-                  </tr>
-                  </thead>
-                </table>
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 ">
+        <div class="card">
+          <div class="boxs mail_listing">
+            <div class="inbox-center table-responsive">
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th colspan="1">
+                    <div class="inbox-header">
+                      <h1>All Services Provider - Portale Apertura Ticket, {{cliente.ragioneSociale}}</h1>
+                    </div>
+                  </th>
+                </tr>
+                </thead>
+              </table>
+            </div>
+            <div class="row align-center" *ngIf="logoUrl">
+              <div class="col-xl col-lg col-md-12 col-sm-12 mb-2">
+                <img [src]="logoUrl"  class="img-fluid" alt="Logo">
               </div>
-              <div class="row">
-                <div class="col-lg-12">
-                  <form class="composeForm" [formGroup]="ticketForm">
-                    <!--<div class="form-line">
-                      <mat-form-field class="example-full-width" appearance="outline" >
-                        <mat-label>cliente Mail</mat-label>
-                        <input matInput id="email_address" [placeholder]="cliente.mail" disabled>
-                      </mat-form-field>
-                    </div>-->
-                    <div class="form-line">
-                      <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>indirizzo mail</mat-label>
-                        <input matInput id="email_address" [formControlName]="'mail'">
-                        <mat-error *ngIf="ticketForm.get('mail')?.hasError('pattern')">
-                          indirizzo mail non valido, Controlla il formato!
-                        </mat-error>
-                        <mat-error *ngIf="ticketForm.get('mail')?.hasError('required')">
-                          Inserire indirizzo mail
-                        </mat-error>
-                      </mat-form-field>
-                    </div>
-                    <div class="form-line" style="padding-top: 20px;padding-bottom: 20px">
-                      <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Nominativo</mat-label>
-                        <input matInput id="subject" [formControlName]="'nominativo'">
-                        <mat-error *ngIf="ticketForm.get('nominativo')?.hasError('required')">
-                          Inserire il Nominativo
-                        </mat-error>
-                      </mat-form-field>
-                    </div>
-                    <div class="form-line">
-                      <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Telefono</mat-label>
-                        <input matInput id="phone" [formControlName]="'telefono'">
-                        <mat-error *ngIf="ticketForm.get('telefono')?.hasError('pattern')">
-                          Numero Telefono non valido, Controlla il formato!
-                        </mat-error>
-                        <mat-error *ngIf="ticketForm.get('telefono')?.hasError('required')">
-                          inserire il numero di telefono
-                        </mat-error>
-                      </mat-form-field>
-                    </div>
-                    <ckeditor [editor]="Editor" data="<br><br><br><br>" [formControlName]="'descrizione'"></ckeditor>
-                  </form>
-                </div>
-                <div class="col-lg-12">
-                  <div class="m-l-25 m-b-20">
-                    <button mat-flat-button color="primary" class="msr-2" type="submit" (click)="onSubmit()"
-                            [disabled]="!ticketForm.valid">Invia Ticket
-                    </button>
+            </div>
+            <div class="row" >
+              <div class="" *ngIf="isLoading">
+                <app-page-loader></app-page-loader>
+              </div>
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2" *ngIf="!isLoading">
+                <form class="composeForm" [formGroup]="ticketForm">
+                  <!--<div class="form-line">
+                    <mat-form-field class="example-full-width" appearance="outline" >
+                      <mat-label>cliente Mail</mat-label>
+                      <input matInput id="email_address" [placeholder]="cliente.mail" disabled>
+                    </mat-form-field>
+                  </div>-->
+
+                  <div class="form-line" style="padding-top: 20px;padding-bottom: 20px">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Nominativo</mat-label>
+                      <input matInput id="subject" [formControlName]="'nominativo'">
+                      <mat-error *ngIf="ticketForm.get('nominativo')?.hasError('required')">
+                        Inserire il Nominativo
+                      </mat-error>
+                    </mat-form-field>
                   </div>
+                  <div class="form-line">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Contatto Telefonico</mat-label>
+                      <input matInput id="phone" [formControlName]="'telefono'">
+                      <mat-error *ngIf="ticketForm.get('telefono')?.hasError('pattern')">
+                        Numero Telefono non valido, Controlla il formato!
+                      </mat-error>
+                      <mat-error *ngIf="ticketForm.get('telefono')?.hasError('required')">
+                        inserire il numero di telefono
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="form-line">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Indirizzo Mail</mat-label>
+                      <input matInput id="email_address" [formControlName]="'mail'">
+                      <mat-error *ngIf="ticketForm.get('mail')?.hasError('pattern')">
+                        indirizzo mail non valido, Controlla il formato!
+                      </mat-error>
+                      <mat-error *ngIf="ticketForm.get('mail')?.hasError('required')">
+                        Inserire indirizzo mail
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <ckeditor [editor]="Editor" data="<br><br><br><br>" [formControlName]="'descrizione'"></ckeditor>
+                </form>
+              </div>
+              <div class="col-lg-12">
+                <div class="m-l-25 m-b-20">
+                  <button mat-flat-button color="primary" class="msr-2" type="submit" (click)="onSubmit()"
+                          [disabled]="!ticketForm.valid"> Inoltra Richiesta
+                  </button>
                 </div>
               </div>
             </div>
@@ -77,8 +84,10 @@
         </div>
       </div>
     </div>
-  </section>
+  </div>
+
+</section>
+
 
 </div>
 
-{{JSON.stringify(this.ticketForm.value)}}

@@ -13,7 +13,6 @@ export class HomeService {
   constructor(private http: HttpClient) { }
 
   getAll() {
-    console.log(`${environment.apiUrl}/${environment.servizi.api.getAll}`)
     return this.http.get(`${environment.apiUrl}/${environment.servizi.api.getAll}`)
       .pipe(
         map((result) => {
@@ -52,8 +51,6 @@ export class HomeService {
   }
 
   updateStatusTickeChiuso(element: TicketTableElement) {
-    console.log("INSIDE SERVICE")
-    console.log(element)
     return this.http.post<string>(`${environment.apiUrl}/${environment.servizi.operatoreService.updateTicketStatusChiuso}`, element)
       .pipe(
         map((result) => {

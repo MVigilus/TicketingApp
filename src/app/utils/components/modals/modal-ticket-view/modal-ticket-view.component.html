@@ -28,8 +28,8 @@
         </div>
       <div *ngIf="element.element.status === 'IN_LAVORAZIONE'" class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-4">
-          <h3>Descrizione ticket</h3>
-          <ckeditor [config]="{ toolbar: [] }" [data]="element.element.NoteOperatore" [editor]="Editor"
+          <h3>Note Operatore</h3>
+          <ckeditor [config]="{ toolbar: [] }" [data]="element.element.noteOperatore" [editor]="Editor"
                     readonly></ckeditor>
         </div>
       </div>

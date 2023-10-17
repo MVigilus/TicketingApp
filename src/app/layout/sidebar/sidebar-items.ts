@@ -23,6 +23,17 @@ export const ROUTES: RouteInfo[] = [
     badgeClass: '',
     submenu: [],
   },
+  {
+    path: 'dashboard/profile',
+    title: 'MENUITEMS.USER.PROFILE',
+    iconType: 'feather',
+    icon: 'user',
+    class: '',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    submenu: [],
+  },
 
 ];
 
@@ -105,8 +116,19 @@ export const ROUTESADMIN: RouteInfo[] = [
       },
     ],
   },
-
   {
+    path: 'dashboard/profile',
+    title: 'MENUITEMS.ADMIN.PROFILE',
+    iconType: 'feather',
+    icon: 'user',
+    class: '',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    submenu: [],
+  },
+
+  /*{
     path: '',
     title: 'MENUITEMS.ADMIN.COMBOSISTEMA.TITLE',
     iconType: 'feather',
@@ -139,6 +161,6 @@ export const ROUTESADMIN: RouteInfo[] = [
         submenu: [],
       },
     ],
-  },
+  },*/
 
 ];

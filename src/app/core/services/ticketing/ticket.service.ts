@@ -32,5 +32,9 @@ export class TicketService{
       )
   }
 
+  getLogoCliente(id: string | null){
+    return this.http.get(`${environment.apiUrl}/${environment.servizi.ticketing.getLogoCliente}/`+id, { responseType: 'blob' });
+  }
+
 
 }

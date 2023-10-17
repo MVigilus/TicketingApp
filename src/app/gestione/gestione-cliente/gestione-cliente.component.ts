@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import {MatTableDataSource} from "@angular/material/table";
 import {ClienteElementTable} from "@core/model/admin/ClienteElementTable";
 import {EditClienteModalComponent} from "../../utils/components/modals/edit-cliente-modal/edit-cliente-modal.component";
+import {EditLogoClienteComponent} from "../../utils/components/modals/edit-logo-cliente/edit-logo-cliente.component";
 
 
 @Component({
@@ -81,6 +82,18 @@ export class GestioneClienteComponent extends UnsubscribeOnDestroyAdapter implem
 
   }
 
+  UpdateLogo(element: ClienteElementTable) {
+
+    const dialogRef = this.dialog.open(EditLogoClienteComponent, {
+      data: {action: "edit", cliente: element.id, code:element.codice},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadDataTabble()
+    });
+
+  }
+
   addNew() {
     const dialogRef = this.dialog.open(EditClienteModalComponent, {
       data: {action: "", cliente: {}},
@@ -95,12 +108,10 @@ export class GestioneClienteComponent extends UnsubscribeOnDestroyAdapter implem
     this.subs.sink = this.adminservice.getAllClienti().subscribe({
       next: (res) => {
         if (res) {
-          console.log(res)
           this.dataSource.data = res;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
           this.dataSource.data = res.filter((element) => {
-            // Convert all the properties to lowercase and check if any property contains the search value
             return Object.values(element).some((value) =>
               value.toString().toLowerCase().includes(this.searchValue.toLowerCase())
             );

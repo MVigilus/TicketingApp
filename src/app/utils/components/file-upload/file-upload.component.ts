@@ -22,12 +22,12 @@ export class FileUploadComponent implements ControlValueAccessor {
     const file = event && event.item(0);
     this.onChange(file);
     this.file = file;
+    this.onChange(this.file)
   }
 
   constructor(private host: ElementRef<HTMLInputElement>) {}
 
   writeValue(value: null) {
-    // clear file input
     this.host.nativeElement.value = '';
     this.file = null;
   }

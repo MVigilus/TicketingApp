@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
 import {ClienteElementTable} from "@core/model/admin/ClienteElementTable";
@@ -24,6 +24,7 @@ export class AdminService {
         })
       );
   }
+
 
   public getAllOperatoreNominativo() {
     return this.http.get<string[]>(`${environment.apiUrl}/${environment.servizi.adminService.getAllImpiegatoName}`)
@@ -73,7 +74,7 @@ export class AdminService {
       );
   }
 
-  deleteCliente(id: number) {
+  deleteCliente(id: number|null) {
     return this.http.delete(`${environment.apiUrl}/${environment.servizi.adminService.deleteCliente}/` + id).pipe(
       map((result) => {
         return result
@@ -97,6 +98,22 @@ export class AdminService {
           return result
         })
       );
+  }
+
+  addLogoCliente(file: File, id: number) {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<any>(`${environment.apiUrl}/${environment.servizi.adminService.insertLogoCliente}/`+id, formData)
+      .pipe(
+        map((result) => {
+          return result
+        })
+      );
+  }
+
+  getLogoCliente(id:string){
+
+    return this.http.get(`${environment.apiUrl}/${environment.servizi.ticketing.getLogoCliente}/`+id, { responseType: 'blob' });
   }
 
   getAllOperatore() {

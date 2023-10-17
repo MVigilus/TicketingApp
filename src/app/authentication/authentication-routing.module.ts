@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {Page505Component} from "../wildcard/page505/page505.component";
 import {Page404Component} from "../wildcard/page404/page404.component";
 import {LoginPageComponent} from "./login-page/login-page.component";
+import {ForgotPasswordComponent} from "./forgot-password/forgot-password.component";
 
 const routes: Routes = [
   {
@@ -14,10 +15,10 @@ const routes: Routes = [
     path: "signin",
     component: LoginPageComponent,
   },
-  /*{
+  {
     path: "forgot-password",
     component: ForgotPasswordComponent,
-  },*/
+  },
   /*{
     path: "locked",
     component: LockedComponent,

@@ -95,6 +95,18 @@
                   <th *matHeaderCellDef mat-header-cell> Telefono</th>
                   <td *matCellDef="let element" mat-cell> {{element.telefono}} </td>
                 </ng-container>
+                <ng-container matColumnDef="dataPresaInCarico">
+                  <th *matHeaderCellDef mat-header-cell> Data presa in carico</th>
+                  <td *matCellDef="let element" mat-cell> {{element.dataPresaInCarico | date:'dd-MM-yyyy'}} </td>
+                </ng-container>
+                <ng-container matColumnDef="noteOperatore">
+                  <th *matHeaderCellDef mat-header-cell> Note Operatore</th>
+                  <td *matCellDef="let element" mat-cell> {{element.noteOperatore}} </td>
+                </ng-container>
+                <ng-container matColumnDef="dataChiusura">
+                  <th *matHeaderCellDef mat-header-cell>Data Chiusura</th>
+                  <td *matCellDef="let element" mat-cell> {{element.dataChiusura | date:'dd-MM-yyyy'}} </td>
+                </ng-container>
                 <ng-container matColumnDef="status">
                   <th *matHeaderCellDef mat-header-cell> Stato
                     <mat-select (selectionChange)="applyEmpFilter($event,empFilters[1])"

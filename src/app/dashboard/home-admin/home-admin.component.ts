@@ -64,8 +64,8 @@ export class HomeAdminComponent extends UnsubscribeOnDestroyAdapter implements O
     this.AndamentoStatoOptions = this.getChartBarOption();
 
 
-    this.AndamentoStatoOptions.xaxis!.categories = ['Aperto', 'lavorazione', 'chiuso']
-    this.AndamentoOperatoreOptions.xaxis!.categories = ['lavorazione', 'chiuso'];
+    this.AndamentoStatoOptions.xaxis!.categories = ['Aperto', 'In Lavorazione', 'Chiusi']
+    this.AndamentoOperatoreOptions.xaxis!.categories = ['In Lavorazione', 'Chiusi'];
 
     this.AndamentoStatoOptions.series = []
     this.AndamentoStatoOptions.series = []
@@ -104,7 +104,7 @@ export class HomeAdminComponent extends UnsubscribeOnDestroyAdapter implements O
       },
       yaxis: {
         title: {
-          text: 'N ticket',
+          text: 'Numero',
         },
       },
       responsive: [

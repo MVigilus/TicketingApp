@@ -26,7 +26,6 @@ export class EditOperatoreModalComponent extends UnsubscribeOnDestroyAdapter imp
   ]);
 
   clienti: string[] = [];
-  protected readonly JSON = JSON;
 
   constructor(
     public dialogRef: MatDialogRef<EditOperatoreModalComponent>,
@@ -35,27 +34,23 @@ export class EditOperatoreModalComponent extends UnsubscribeOnDestroyAdapter imp
     private fb: UntypedFormBuilder
   ) {
     super();
-    // Set the defaults
     this.clienti = data.clienti
-
     this.action = data.action;
+
     if (this.action === 'edit') {
       this.isDetails = false;
       this.dialogTitle = data.operatore.nominativo;
       this.operatore = data.operatore;
-
     } else {
       this.isDetails = false;
       this.dialogTitle = 'Nuovo Operatore';
       this.operatore = {} as OperatoreElementTable;
-
     }
-    this.contactsForm = this.createContactForm();
 
+    this.contactsForm = this.createContactForm();
     this.contactsForm?.get('clienti')?.setValue(this.operatore.clienti);
 
 
-    console.log(this.operatore)
   }
 
   getErrorMessage() {
@@ -85,11 +80,9 @@ export class EditOperatoreModalComponent extends UnsubscribeOnDestroyAdapter imp
   }
 
   public confirmAdd(): void {
-    console.log(this.contactsForm?.getRawValue())
     this.adminservice.insertOperatore(this.contactsForm?.getRawValue()).subscribe({
       next: (res: any) => {
         if (res) {
-          this.dialogRef.close();
           Swal.fire({
             icon: 'success',
             title: 'Operazione effettuata con successo',
@@ -108,6 +101,7 @@ export class EditOperatoreModalComponent extends UnsubscribeOnDestroyAdapter imp
         });
       },
       complete: () => {
+        this.dialogRef.close();
       }
     });
   }

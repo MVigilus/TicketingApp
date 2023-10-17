@@ -12,6 +12,7 @@ import {ConfigService} from "@config";
 import {TicketService} from "@core/services/ticketing/ticket.service";
 import {TicketReq} from "@core/model/ticketing/TicketReq";
 import Swal from 'sweetalert2';
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 
 
 @Component({
@@ -24,6 +25,9 @@ export class TicketLayoutComponent extends UnsubscribeOnDestroyAdapter
 
   public Editor: any = ClassicEditor;
   public cliente!: ClienteTicket;
+  logoUrl!: SafeUrl;
+  isLoading:boolean=false;
+
 
   public ticketForm!:UntypedFormGroup;
 
@@ -37,7 +41,8 @@ export class TicketLayoutComponent extends UnsubscribeOnDestroyAdapter
     private route:ActivatedRoute,
     private ticketingservice:TicketService,
     private router:Router,
-    private fb:UntypedFormBuilder
+    private fb:UntypedFormBuilder,
+    private sanitizer: DomSanitizer
   ) {
 
     super();
@@ -52,6 +57,11 @@ export class TicketLayoutComponent extends UnsubscribeOnDestroyAdapter
         this.router.navigate(['/clienteNotFound']);
       }
     })
+
+    this.subs.sink=this.ticketingservice.getLogoCliente(this.route.snapshot.paramMap.get("id")).subscribe((data) => {
+      const blob = new Blob([data], { type: 'image/png' });
+      this.logoUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+    });
 
 
 
@@ -203,6 +213,7 @@ export class TicketLayoutComponent extends UnsubscribeOnDestroyAdapter
     if (this.ticketForm.invalid) {
       return;
     } else {
+      this.isLoading=true
       var ticket = new TicketReq(this.ticketForm.value)
       this.subs.sink = this.ticketingservice
         .InsertTicket(ticket)
@@ -211,8 +222,8 @@ export class TicketLayoutComponent extends UnsubscribeOnDestroyAdapter
             if (res) {
               Swal.fire({
                 icon: 'success',
-                title: 'Ticket Inviato con successo',
-                text: res.message,
+                title: 'Richiesta inviata con Successo',
+                text: "a breve riceverà una mail di conferma",
                 footer: '',
               });
             }
@@ -221,14 +232,24 @@ export class TicketLayoutComponent extends UnsubscribeOnDestroyAdapter
             Swal.fire({
               icon: 'error',
               title: 'Oops...',
-              text: 'Something went wrong!',
+              text: 'Qualcosa è andato storto contattare admin!',
               footer: '' +
                 '',
             });
           },
+          complete:()=>{
+            this.redirectToSamePage();
+            this.isLoading=false;
+          }
         });
     }
   }
 
-  protected readonly JSON = JSON;
+  redirectToSamePage() {
+    const currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigateByUrl(currentUrl);
+    });
+  }
+
 }

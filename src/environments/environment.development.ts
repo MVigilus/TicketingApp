@@ -9,6 +9,7 @@ export const environment = {
     auth:{
       login:"auth/login",
       logout: "auth/logout",
+      resetPassword: "auth/resetPassword",
       checkJWT: "auth/checkJWT"
     },
     api:{
@@ -16,7 +17,8 @@ export const environment = {
     },
     ticketing:{
       checkCliente: "ticketing/checkCliente",
-      insertTicket: "ticketing/insertTicket"
+      insertTicket: "ticketing/insertTicket",
+      getLogoCliente: "ticketing/getLogo",
     },
     operatoreService: {
       getResumeOperatore: "operator/getResumeOperatore",
@@ -32,6 +34,7 @@ export const environment = {
       getAllCliente: "admin/getAllCliente",
       getDashboardResume: "admin/dashboardGeneraleResume",
       insertCliente: "admin/insertCliente",
+      insertLogoCliente: "admin/insertLogoCliente",
       deleteCliente: "admin/deleteCliente",
       deleteOperatore: "admin/FR",
       getAllTicketAdmin: "admin/getAllTicketAdmin",

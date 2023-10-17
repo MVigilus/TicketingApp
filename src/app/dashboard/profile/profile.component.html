@@ -1,1 +1,85 @@
-<p>profile works!</p>
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Gestisci Profilo'" [items]="['Dashboard']" [active_item]="'Profilo'"></app-breadcrumb>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 ">
+        <div class="card">
+          <div class="row">
+            <div class="body">
+              <form class="register-form m-4" [formGroup]="register!" (ngSubmit)="onRegister()">
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Nominativo</mat-label>
+                      <input matInput formControlName="nominativo" required>
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+                      <mat-error *ngIf="register?.get('nominativo')?.hasError('required')">
+                        Nominativo richiesto
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Username</mat-label>
+                      <input matInput formControlName="username" required>
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>user</mat-icon>
+                      <mat-error *ngIf="register?.get('username')?.hasError('required')">
+                        username richiesto
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Password</mat-label>
+                      <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" required>
+                      <mat-icon matSuffix (click)="hide = !hide">
+                        {{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline" >
+                      <mat-label>Conferma Password</mat-label>
+                      <input matInput formControlName="password2" [type]="hide ? 'password' : 'text'" [errorStateMatcher]="matcher" required>
+                      <mat-error *ngIf="register?.get('password2')?.hasError('notSame')" >
+                        Password is required
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Email</mat-label>
+                      <input matInput formControlName="email" required>
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>email</mat-icon>
+                      <mat-error *ngIf="register?.get('email')?.hasError('required') || register?.get('email')?.touched">
+                        Please enter a valid email address
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <button class="btn-space" [disabled]="!register?.valid" mat-raised-button
+                            color="primary" (click)="EditProfile()">Modifica Anagrafica</button>
+                  </div>
+                </div>
+              </form>
+
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

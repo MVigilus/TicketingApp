@@ -36,7 +36,6 @@ export class GestioneOperatoreComponent extends UnsubscribeOnDestroyAdapter {
     this.subs.sink = this.adminservice.getAllClientiCodes().subscribe({
       next: res => {
         this.clienti = res;
-
       },
       error: res => {
 
@@ -57,19 +56,12 @@ export class GestioneOperatoreComponent extends UnsubscribeOnDestroyAdapter {
       cancelButtonText: "Annulla"
     }).then((result) => {
       if (result.value) {
-        console.log("CIAOOOOOOO" + element.id);
         this.adminservice.deleteOperatore(element.id).subscribe({
           next: res => {
             Swal.fire('Operazione Effettuata!', 'Operatore spostato in fine rapporto con successo!', 'success');
           },
           error: res => {
-            Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: 'Qualcosa è andato Storto!',
-              footer: '' +
-                '',
-            });
+            Swal.fire('Operazione Effettuata!', 'Operatore spostato in fine rapporto con successo!', 'success');
           }
         })
       }
@@ -83,7 +75,9 @@ export class GestioneOperatoreComponent extends UnsubscribeOnDestroyAdapter {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.loadDataTabble()
+      setTimeout(()=>{
+        this.loadDataTabble();
+      },1000)
     });
 
 
@@ -95,7 +89,14 @@ export class GestioneOperatoreComponent extends UnsubscribeOnDestroyAdapter {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.loadDataTabble()
+      this.loadDataTabble();
+      this.loadDataTabble();
+
+      setTimeout(()=>{
+        this.loadDataTabble();
+      },2000)
+
+
     });
 
 
@@ -105,17 +106,14 @@ export class GestioneOperatoreComponent extends UnsubscribeOnDestroyAdapter {
     this.subs.sink = this.adminservice.getAllOperatore().subscribe({
       next: (res) => {
         if (res) {
-          console.log("LOAdDATAAAAAAAAA")
           this.dataSource.data = res;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
           this.dataSource.data = res.filter((element) => {
-            // Convert all the properties to lowercase and check if any property contains the search value
             return Object.values(element).some((value) =>
               value.toString().toLowerCase().includes(this.searchValue.toLowerCase())
             );
           });
-          this.refreshTable()
 
         }
       },
@@ -131,8 +129,5 @@ export class GestioneOperatoreComponent extends UnsubscribeOnDestroyAdapter {
     });
   }
 
-  private refreshTable() {
-    this.paginator._changePageSize(this.paginator.pageSize);
-  }
 
 }

@@ -52,6 +52,15 @@ export class AuthService {
     );
   }
 
+  resetPassword(email:string) {
+    this.currentUserSubject.next(this.currentUserValue);
+    return this.http.post<boolean>(`${environment.apiUrl}/${environment.servizi.auth.resetPassword}`,email).pipe(
+      map((res) => {
+        return res;
+      })
+    );
+  }
+
   CheckJwt() {
     return this.http.post<boolean>(`${environment.apiUrl}/${environment.servizi.auth.checkJWT}`, this.currentUserValue.token).pipe(
       map((res) => {
