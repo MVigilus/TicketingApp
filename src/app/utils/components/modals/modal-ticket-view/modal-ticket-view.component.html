@@ -26,26 +26,32 @@
                 </mat-form-field>
             </div>
         </div>
-      <div *ngIf="element.element.status === 'IN_LAVORAZIONE'" class="row">
+      <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-4">
-          <h3>Note Operatore</h3>
-          <ckeditor [config]="{ toolbar: [] }" [data]="element.element.noteOperatore" [editor]="Editor"
-                    readonly></ckeditor>
+          <h3>Descrizione ticket</h3>
+          <ckeditor [config]="{ toolbar: [] }" [disabled]="true" [data]="element.element.descrizione" [editor]="Editor"
+                    ></ckeditor>
         </div>
       </div>
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-4">
-              <h3>Descrizione ticket</h3>
-              <ckeditor [config]="{ toolbar: [] }" [data]="element.element.descrizione" [editor]="Editor"
-                        readonly></ckeditor>
-            </div>
+      <div *ngIf="element.element.status === 'IN_LAVORAZIONE' || element.element.status === 'CHIUSO'" class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-4">
+          <h3>Note Operatore Lavorazione Ticket</h3>
+          <ckeditor [config]="{ toolbar: [] }" [data]="element.element.noteOperatore" [(ngModel)]="noteLavorazione"  [editor]="Editor"
+                    [disabled]="element.element.status === 'CHIUSO' || CU.readOnly "></ckeditor>
+          <br>
+          <button [disabled]="noteLavorazione==='' || CU.readOnly" (click)="updateNoteLavorazione()" *ngIf="element.element.status === 'IN_LAVORAZIONE'"
+                  class="btn btn-success btn-lg btn-block waves-effect" type="button">
+            Aggiorna Note Lavorazione
+          </button>
         </div>
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-4">
-              <!--<button (click)="updateStatus()" class="auth-form-btn"
-                      color="primary" mat-raised-button>Avanza Stato
-              </button>-->
-            </div>
+      </div>
+
+      <div *ngIf="element.element.status === 'CHIUSO'" class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-4">
+          <h3>Note Operatore Chiusura</h3>
+          <ckeditor [config]="{ toolbar: [] }" [data]="element.element.noteChiusura" [editor]="Editor"
+                    [disabled]="true"></ckeditor>
         </div>
+      </div>
     </div>
 </div>

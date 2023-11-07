@@ -12,6 +12,9 @@ import {EmpFilter} from "../../dashboard/home/home.component";
 import {UnsubscribeOnDestroyAdapter} from "../../utils/UnsubscribeOnDestroyAdapter";
 import {AdminService} from "@core/services/admin.service";
 import {TicketAdminElement} from "@core/model/admin/TicketAdminElement";
+import {getYears} from "../../utils/functions";
+import moment = require("moment");
+
 
 @Component({
   selector: 'app-gestione-richieste',
@@ -23,14 +26,14 @@ export class GestioneRichiesteComponent extends UnsubscribeOnDestroyAdapter impl
   public selectedHash!: TicketResumeOperatore | undefined;
 
   empFilters: EmpFilter[] = [];
+  public selectPeriodo: string[] = ['all', 'all','','']
+
 
   displayedColumns: string[] = [
     'date',
+    'id',
     'nominativo',
     'cliente',
-    'email',
-    'telefono',
-    'noteOperatore',
     'dataPresaInCarico',
     'dataChiusura',
     'status',
@@ -41,6 +44,7 @@ export class GestioneRichiesteComponent extends UnsubscribeOnDestroyAdapter impl
   @ViewChild(MatSort, {static: true}) sort!: MatSort;
   filterDictionary = new Map<string, string>();
   clienti: string[] = [];
+  operatoriNames:string[]=[];
   selectedValue: string = '';
 
   constructor(
@@ -55,26 +59,43 @@ export class GestioneRichiesteComponent extends UnsubscribeOnDestroyAdapter impl
 
   }
 
+  StatoSelect=['Filtra per ...', 'Aperto', 'Lavorazione', 'Chiuso']
+
+
   loadDataTabble() {
+
+    this.subs.sink=this.adminService.getAllOperatoreNominativo().subscribe({
+      next:(res)=>{
+        this.operatoriNames=res;
+        this.operatoriNames.push('Filtra per ...')
+        this.empFilters[2]={
+          name: 'nominativo',
+          options: this.operatoriNames,
+          defaultValue: 'Filtra per ...'
+        };
+      },
+      error:()=>{
+
+      }
+
+    })
 
 
     this.subs.sink = this.adminService.getAllClientiCodes().subscribe({
       next: (res) => {
-        console.log("INSIER")
-        console.log(res)
         this.clienti = [];
 
         this.clienti = res;
         this.clienti.push("Filtra per ...");
 
-        this.selectedValue = this.clienti[this.clienti.length - 1];
 
-        this.empFilters.push({name: 'cliente', options: this.clienti, defaultValue: 'Filtra per ...'});
-        this.empFilters.push({
+        this.empFilters[0]= {name: 'cliente', options: this.clienti, defaultValue: 'Filtra per ...'};
+        this.empFilters[1]={
           name: 'status',
           options: ['Filtra per ...', 'APERTO', 'IN_LAVORAZIONE', 'CHIUSO'],
           defaultValue: 'Filtra per ...'
-        });
+        };
+
       },
       error: res => {
         Swal.fire({
@@ -87,9 +108,18 @@ export class GestioneRichiesteComponent extends UnsubscribeOnDestroyAdapter impl
       }
     });
 
-    console.log(this.empFilters)
+    let method='';
 
-    this.subs.sink = this.adminService.getAdminResumeTicket().subscribe({
+    if(this.selectPeriodo[0]!='all' || this.selectPeriodo[1]!='all'){
+      method='annomese'
+    }
+
+    if(this.selectPeriodo[2]!=''){
+      console.log("PERIODO : "+this.selectPeriodo[1])
+      method='periodo'
+    }
+
+    this.subs.sink = this.adminService.getAdminResumeTicket(method,(method!='periodo')?[this.selectPeriodo[0],this.selectPeriodo[1]]:[this.selectPeriodo[2],this.selectPeriodo[3]]).subscribe({
       next: (res) => {
         if (res) {
           console.log("LOADTABLE")
@@ -189,5 +219,51 @@ export class GestioneRichiesteComponent extends UnsubscribeOnDestroyAdapter impl
       this.selectedHash = this.operatoreResume.ticketResume[$event.value];
 
     }
+  }
+
+  protected readonly getYears = getYears;
+
+  changeDatePicker(id: number) {
+    if (!this.selectPeriodo[id]) {
+      this.selectPeriodo[3] = '';
+      this.selectPeriodo[2] = '';
+
+    } else if (this.selectPeriodo[id] !== '') {
+      this.selectPeriodo[id] = moment(this.selectPeriodo[id]).format('YYYY-MM-DD');
+    }
+  }
+
+  checkComboStatus(id:number) {
+    switch (id){
+      case 1:
+        if(this.selectPeriodo[2]!=''){
+          this.selectPeriodo[0]='all'
+          this.selectPeriodo[1]='all'
+          return true
+        }
+        break;
+
+      case 2:
+        return this.selectPeriodo[0]!='all' || this.selectPeriodo[1]!='all';
+
+    }
+
+
+    return false;
+  }
+
+  exportExcel() {
+    let method='';
+
+    if(this.selectPeriodo[0]!='all' || this.selectPeriodo[1]!='all'){
+      method='annomese'
+    }
+
+    if(this.selectPeriodo[2]!=''){
+      console.log("PERIODO : "+this.selectPeriodo[1])
+      method='periodo'
+    }
+
+    this.subs.sink=this.adminService.exportAdminResumeTicket(method,(method!='periodo')?[this.selectPeriodo[0],this.selectPeriodo[1]]:[this.selectPeriodo[2],this.selectPeriodo[3]]).subscribe()
   }
 }

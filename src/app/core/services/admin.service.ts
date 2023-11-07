@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
 import {ClienteElementTable} from "@core/model/admin/ClienteElementTable";
 import {AdminTicketResume} from "@core/model/admin/AdminTicketResume";
 import {OperatoreElementTable} from "@core/model/admin/OperatoreElementTable";
 import {AdminDashboardResume} from "@core/model/admin/AdminDashboardResume";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,25 @@ export class AdminService {
 
   public getAllClientiCodes() {
     return this.http.get<string[]>(`${environment.apiUrl}/${environment.servizi.adminService.getAllClientiCodes}`)
+      .pipe(
+        map((result) => {
+          return result
+        })
+      );
+  }
+
+  public UpdatePasswordCliente(id: number | null,password:string){
+    return this.http.post<any>(`${environment.apiUrl}/${environment.servizi.adminService.editClientePassword}/`+id, password)
+      .pipe(
+        map((result) => {
+          return result
+        })
+      );
+  }
+
+  public UpdatePasswordClienteTicket(id: number | null,password:string){
+    console.log("PASSWORD "+password)
+    return this.http.post<any>(`${environment.apiUrl}/${environment.servizi.adminService.editClienteTicketPassword}/`+id, password)
       .pipe(
         map((result) => {
           return result
@@ -65,13 +85,56 @@ export class AdminService {
       );
   }
 
-  public getAdminResumeTicket() {
+  public exportAdminResumeTicket(method:string,params:string[]): Observable<void>  {
+    if(method!=''){
+      return this.http.get(`${environment.apiUrl}/${environment.servizi.adminService.exportExcel}P?method=${method}&param1=${params[0]}&param2=${params[1]}`, {
+        responseType: 'blob',
+        observe: 'response'
+      }).pipe(map((response: HttpResponse<Blob>) => {
+        const contentDispositionHeader = response.headers.get('content-disposition');
+        const fileName = contentDispositionHeader?.split(';')[1].trim().split('=')[1];
+        this.downloadFile(response.body, fileName);
+      }));
+    }
+
+    return this.http.get(`${environment.apiUrl}/${environment.servizi.adminService.exportExcel}`, {
+      responseType: 'blob',
+      observe: 'response'
+    }).pipe(map((response: HttpResponse<Blob>) => {
+      const contentDispositionHeader = response.headers.get('content-disposition');
+      const fileName = contentDispositionHeader?.split(';')[1].trim().split('=')[1];
+      this.downloadFile(response.body, fileName);
+    }));
+
+  }
+
+  private downloadFile(data: Blob|null, fileName: string|undefined): void {
+    const blob = new Blob([(data)?data:""], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const downloadLink = document.createElement('a');
+    downloadLink.href = window.URL.createObjectURL(blob);
+    downloadLink.setAttribute('download', (fileName)?fileName:"");
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  }
+
+  public getAdminResumeTicket(method:string,params:string[]) {
+    if(method!=''){
+      return this.http.get<AdminTicketResume>(`${environment.apiUrl}/${environment.servizi.adminService.getAllTicketAdmin}P?method=${method}&param1=${params[0]}&param2=${params[1]}`)
+        .pipe(
+          map((result) => {
+            return result
+          })
+        );
+    }
+
     return this.http.get<AdminTicketResume>(`${environment.apiUrl}/${environment.servizi.adminService.getAllTicketAdmin}`)
       .pipe(
         map((result) => {
           return result
         })
       );
+
   }
 
   deleteCliente(id: number|null) {
@@ -92,6 +155,15 @@ export class AdminService {
 
 
   addCliente(rawValue: ClienteElementTable) {
+    if(!rawValue.password){
+      rawValue.password="temporanea"
+    }
+
+    if(!rawValue.passwordticket){
+      rawValue.passwordticket="temporanea"
+    }
+
+    console.log(JSON.stringify(rawValue))
     return this.http.post<any>(`${environment.apiUrl}/${environment.servizi.adminService.insertCliente}`, rawValue)
       .pipe(
         map((result) => {

@@ -4,8 +4,10 @@ export const environment = {
   servizi:{
     auth:{
       login:"auth/login",
+      loginCliente:"auth/loginCliente",
       logout: "auth/logout",
       resetPassword: "auth/resetPassword",
+      editProfile:"auth/editProfile",
       checkJWT: "auth/checkJWT"
     },
     api:{
@@ -13,18 +15,27 @@ export const environment = {
     },
     ticketing:{
       checkCliente: "ticketing/checkCliente",
+      checkClientePassword:"ticketing/checkClientePassword",
       insertTicket: "ticketing/insertTicket",
       getLogoCliente: "ticketing/getLogo",
+    },
+    clienteService:{
+      getResumeCliente:"monitoring/getResume",
+      getAllImpiegatoName: "admin/getAllImpiegatoName",
     },
     operatoreService: {
       getResumeOperatore: "operator/getResumeOperatore",
       updateTicketStatus: "operator/updateTicketStatus",
+      updateTicketNoteLavorazione: "operator/updateTicketNoteLavorazione",
       updateTicketStatusLav: "operator/updateTicketStatusLav",
       updateTicketStatusChiuso: "operator/updateTicketStatusChiuso"
 
     },
     adminService: {
       getAllClientiCodes: "admin/getAllClientiCodes",
+      editClientePassword: "admin/editPwdCliente",
+      exportExcel:"admin/exportTicketAdmin",
+      editClienteTicketPassword: "admin/editPwdTicket",
       getAllImpiegatoName: "admin/getAllImpiegatoName",
       getAllOperatore: "admin/getAllOperatore",
       getDashboardResume: "admin/dashboardGeneraleResume",

@@ -1,18 +1,19 @@
 {
   "HEADER":{
     "SEARCH": {
-      "TEXT": "Buscar.."
+      "TEXT": "Cerca..."
     }
   },
   "MENUITEMS": {
     "ADMIN": {
       "HOME": "HomePage",
+      "PROFILE": "Profilo",
       "COMBOGESTIONE": {
-        "TITLE": "Menù Gestione",
-        "OPERATORI": "Gestione Operatori",
-        "OPERATORIFR": "Gestione Operatori FR",
-        "CLIENTI": "Gestione Clienti",
-        "RICHIESTE": "Gestione Richieste"
+        "TITLE": "Gestione",
+        "OPERATORI": "Operatori",
+        "OPERATORIFR": "Operatori FR",
+        "CLIENTI": "Clienti",
+        "RICHIESTE": "Ticket"
       },
       "COMBOSISTEMA": {
         "TITLE": "Sistema",
@@ -22,11 +23,12 @@
     },
 
     "USER": {
-      "HOME": "HomePage"
+      "HOME": "HomePage",
+      "PROFILE": "Profilo"
     },
 
     "TITLES": {
-      "MAIN" : "Lista Operazioni"
+      "MAIN" : ""
     }
   }
 }

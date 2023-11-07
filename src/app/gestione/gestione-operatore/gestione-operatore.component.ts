@@ -23,6 +23,7 @@ export class GestioneOperatoreComponent extends UnsubscribeOnDestroyAdapter {
     'email',
     'username',
     'clienti',
+    'readOnly',
     'action'
   ];
   clienti: string[] = [];
@@ -89,10 +90,11 @@ export class GestioneOperatoreComponent extends UnsubscribeOnDestroyAdapter {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.loadDataTabble();
-      this.loadDataTabble();
+
 
       setTimeout(()=>{
+        this.loadDataTabble();
+        this.loadDataTabble();
         this.loadDataTabble();
       },2000)
 

@@ -6,5 +6,6 @@ export class User{
   admin!:boolean;
   clienti!:string[];
   nominativo!: string;
+  readOnly!:boolean;
   token!: string;
 }

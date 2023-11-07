@@ -66,8 +66,32 @@
             </mat-form-field>
           </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="action==='edit'">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-4">
+            <h3>Password Accesso Ticket</h3>
+            <mat-form-field appearance="outline" class="example-full-width" subscriptSizing="dynamic">
+              <input matInput [type]="hide ? 'password' : 'text'" formControlName="passwordticket">
+              <a href="#" onClick="return false;" matSuffix (click)="hide = !hide"
+                 [attr.aria-label]="'Nascondi Password'" [attr.aria-pressed]="hide">
+                <mat-icon class="material-icons-two-tone color-icon m-3" matSuffix>
+                  {{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </a>
+            </mat-form-field>
+          </div>
+        </div>
 
+        <div class="row" *ngIf="action==='edit'">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-4">
+            <h3>Password Accesso Cliente</h3>
+            <mat-form-field appearance="outline" class="example-full-width" subscriptSizing="dynamic">
+              <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+              <a href="#" onClick="return false;" matSuffix (click)="hide = !hide"
+                 [attr.aria-label]="'Nascondi Password'" [attr.aria-pressed]="hide">
+                <mat-icon class="material-icons-two-tone color-icon m-3" matSuffix>
+                  {{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </a>
+            </mat-form-field>
+          </div>
         </div>
         <div class="row">
           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">

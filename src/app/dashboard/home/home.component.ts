@@ -19,6 +19,8 @@ import {
 import {
   AdvanceTicketChiusoComponent
 } from "../../utils/components/modals/advance-ticket-chiuso/advance-ticket-chiuso.component";
+import {getYears} from "../../utils/functions";
+import moment = require("moment");
 
 export interface EmpFilter {
   name: string;
@@ -38,7 +40,7 @@ export class HomeComponent extends UnsubscribeOnDestroyAdapter
 
   empFilters: EmpFilter[] = [];
 
-  StatoSelect=['Filtra per ...', 'Aperto', 'In Lavorazione', 'Chiuso']
+  StatoSelect=['Filtra per ...', 'Aperto', 'Lavorazione', 'Chiuso']
 
   displayedColumns: string[] = [
     'id',
@@ -47,7 +49,7 @@ export class HomeComponent extends UnsubscribeOnDestroyAdapter
     'cliente',
     'email',
     'telefono',
-    'noteOperatore',
+    //'noteOperatore',
     'dataPresaInCarico',
     'dataChiusura',
     'status',
@@ -57,6 +59,10 @@ export class HomeComponent extends UnsubscribeOnDestroyAdapter
   @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort!: MatSort;
   filterDictionary = new Map<string, string>();
+
+  get CU(){
+    return this.authService.currentUserValue
+  }
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -85,8 +91,54 @@ export class HomeComponent extends UnsubscribeOnDestroyAdapter
 
   }
 
+  public selectPeriodo: string[] = ['all', 'all','','']
+
+
+  protected readonly getYears = getYears;
+
+  changeDatePicker(id: number) {
+    if (!this.selectPeriodo[id]) {
+      this.selectPeriodo[3] = '';
+      this.selectPeriodo[2] = '';
+
+    } else if (this.selectPeriodo[id] !== '') {
+      this.selectPeriodo[id] = moment(this.selectPeriodo[id]).format('YYYY-MM-DD');
+    }
+  }
+
+  checkComboStatus(id:number) {
+    switch (id){
+      case 1:
+        if(this.selectPeriodo[2]!=''){
+          this.selectPeriodo[0]='all'
+          this.selectPeriodo[1]='all'
+          return true
+        }
+        break;
+
+      case 2:
+        return this.selectPeriodo[0]!='all' || this.selectPeriodo[1]!='all';
+
+    }
+
+
+    return false;
+  }
+
   loadDataTabble() {
-    this.subs.sink = this.homeservice.getOperatoreResume(this.authService.currentUserValue.clienti).subscribe({
+
+    let method='';
+
+    if(this.selectPeriodo[0]!='all' || this.selectPeriodo[1]!='all'){
+      method='annomese'
+    }
+
+    if(this.selectPeriodo[2]!=''){
+      console.log("PERIODO : "+this.selectPeriodo[1])
+      method='periodo'
+    }
+
+    this.subs.sink = this.homeservice.getOperatoreResume(this.authService.currentUserValue.clienti,method,(method!='periodo')?[this.selectPeriodo[0],this.selectPeriodo[1]]:[this.selectPeriodo[2],this.selectPeriodo[3]]).subscribe({
       next: (res) => {
         if (res) {
           //console.log(res)
@@ -118,8 +170,10 @@ export class HomeComponent extends UnsubscribeOnDestroyAdapter
           footer: '' +
             '',
         });
+        this.authService.logout()
       },
     });
+
   }
 
   onSubmit() {
@@ -183,7 +237,7 @@ export class HomeComponent extends UnsubscribeOnDestroyAdapter
     return "";
   }
 
-  UpdateLavorazione(element: TicketTableElement) {
+  UpdateNoteLavorazione(element: TicketTableElement) {
     const dialogRef = this.dialog.open(AdvanceTicketLavorazioneComponent, {
       data: {element},
     });
@@ -191,6 +245,49 @@ export class HomeComponent extends UnsubscribeOnDestroyAdapter
     dialogRef.afterClosed().subscribe(result => {
       this.loadDataTabble()
     });
+  }
+
+  UpdateLavorazione(element: TicketTableElement) {
+    Swal.fire({
+      title: 'Sei Sicuro?',
+      text: "Vuoi prendere in carico la richiesta?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Procedi',
+      cancelButtonText: "Annulla"
+    }).then((result) => {
+      if (result.value) {
+        this.subs.sink = this.homeservice.updateStatusTicketLavorazione(element).subscribe({
+          next: (res: any) => {
+            if (res) {
+              Swal.fire({
+                icon: 'success',
+                title: 'Operazione effettuata con successo',
+                text: 'Stato Ticket modificato In Lavorazione\n' +
+                  '\n' +
+                  '                                  Inviata notifica Mail al Cliente sullo stato di Avanzamento',
+                footer: '',
+              });
+            }
+          },
+          error: () => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong!',
+              footer: '' +
+                '',
+            });
+          },
+          complete:()=>{
+            this.loadDataTabble();
+          }
+        });
+      }
+    });
+
   }
 
   UpdateChiuso(element: TicketTableElement) {
@@ -202,4 +299,5 @@ export class HomeComponent extends UnsubscribeOnDestroyAdapter
       this.loadDataTabble()
     });
   }
+
 }

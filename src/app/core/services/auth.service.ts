@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {map} from 'rxjs/operators';
 import {User} from "../model/User";
+import {Editprofile} from "@core/model/Editprofile";
 
 
 @Injectable({
@@ -41,6 +42,22 @@ export class AuthService {
       );
   }
 
+  loginCliente(username: string, password: string) {
+    return this.http
+      .post<User>(`${environment.apiUrl}/${environment.servizi.auth.loginCliente}`, {
+        username,
+        password,
+      })
+      .pipe(
+        map((user) => {
+          // console.log(JSON.stringify(user))
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          this.currentUserSubject.next(user);
+          return user;
+        })
+      );
+  }
+
   logout() {
     // remove user from local storage to log user out
     localStorage.clear();
@@ -69,5 +86,16 @@ export class AuthService {
     );
     // Use RxJS interval operator to execute the HTTP request every minute
 
+  }
+
+  editProfile(body:Editprofile){
+    return this.http.post<User>(`${environment.apiUrl}/${environment.servizi.auth.editProfile}`,body).pipe(
+      map((user) => {
+        // console.log(JSON.stringify(user))
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentUserSubject.next(user);
+        return user;
+      })
+    );
   }
 }

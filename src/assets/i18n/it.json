@@ -12,8 +12,8 @@
         "TITLE": "Gestione",
         "OPERATORI": "Operatori",
         "OPERATORIFR": "Operatori FR",
-        "CLIENTI": "Gestione Clienti",
-        "RICHIESTE": "Gestione Richieste"
+        "CLIENTI": "Clienti",
+        "RICHIESTE": "Ticket"
       },
       "COMBOSISTEMA": {
         "TITLE": "Sistema",
@@ -28,7 +28,7 @@
     },
 
     "TITLES": {
-      "MAIN" : "Lista Operazioni"
+      "MAIN" : ""
     }
   }
 }

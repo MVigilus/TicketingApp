@@ -28,7 +28,7 @@
                   <mat-label>Password</mat-label>
                   <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
                   <a href="#" onClick="return false;" matSuffix (click)="hide = !hide"
-                     [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                     [attr.aria-label]="'Nascondi Password'" [attr.aria-pressed]="hide">
                     <mat-icon class="material-icons-two-tone color-icon m-3" matSuffix>
                       {{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                   </a>

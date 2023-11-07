@@ -11,6 +11,8 @@ import {
 } from "@angular/forms";
 import {AuthService} from "@core/services/auth.service";
 import {ErrorStateMatcher} from "@angular/material/core";
+import {Editprofile} from "@core/model/Editprofile";
+import Swal from "sweetalert2";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -72,8 +74,31 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
 
   }
 
-
+  editProfile!:Editprofile
   EditProfile() {
-    console.log(this.register?.getRawValue())
+    this.editProfile={
+      id:this.register?.get('id')?.value,
+      nominativo:this.register?.get('nominativo')?.value,
+      username:this.register?.get('username')?.value,
+      password:this.register?.get('password')?.value,
+      email:this.register?.get('email')?.value
+    }
+
+    this.subs.sink=this.authService.editProfile(this.editProfile).subscribe({
+      next:res=>{
+        if(res){
+          Swal.fire({
+            icon: 'success',
+            title: 'Operazione Effettuata!',
+            text: 'Dati anagrafici cambiati con successo!',
+            footer: '',
+          });
+
+        }
+      },
+      error:()=>{
+
+      }
+    })
   }
 }

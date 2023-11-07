@@ -30,6 +30,7 @@ import {GestioneOperatoreFRComponent} from './gestione/gestione-operatore-fr/ges
 import {GestioneClienteComponent} from './gestione/gestione-cliente/gestione-cliente.component';
 import {GestioneRichiesteComponent} from './gestione/gestione-richieste/gestione-richieste.component';
 import {ComponentsModule} from "./utils/components/components.module";
+import {ClienteLayoutComponent} from "./layout/app-layout/cliente-layout/cliente-layout.component";
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -44,13 +45,14 @@ export function createTranslateLoader(http: HttpClient) {
     SidebarComponent,
     RightSidebarComponent,
     AuthLayoutComponent,
+    ClienteLayoutComponent,
     MainLayoutComponent,
     AdminLayoutComponent,
     TicketLayoutComponent,
     GestioneOperatoreComponent,
     GestioneOperatoreFRComponent,
     GestioneClienteComponent,
-    GestioneRichiesteComponent
+    GestioneRichiesteComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,8 +76,11 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+  ],
+  exports: [
+    HeaderComponent
   ],
   bootstrap: [AppComponent]
 })

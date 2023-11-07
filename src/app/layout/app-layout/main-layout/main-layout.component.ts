@@ -197,14 +197,15 @@ export class MainLayoutComponent extends UnsubscribeOnDestroyAdapter {
         next: res => {
           console.log("ISJWTNOTEXPIREDORNOTEXCLUDED : " + res)
           if (!res) {
-            this.authService.logout();
-            this.router.navigate(['/authentication/signin']);
+            this.authService.logout().subscribe((res) => {
+              this.router.navigate(['/authentication/signin']);
+            });
           }
-
         },
         error: res => {
-          this.authService.logout();
-
+          this.authService.logout().subscribe((res) => {
+            this.router.navigate(['/authentication/signin']);
+          });
         }
       })
 

@@ -1,9 +1,11 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import Swal from "sweetalert2";
 import {HomeService} from "@core/services/dashboard/home.service";
 import {UnsubscribeOnDestroyAdapter} from "../../../UnsubscribeOnDestroyAdapter";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import {CKEditorComponent} from "@ckeditor/ckeditor5-angular";
+import {AuthService} from "@core/services/auth.service";
 
 @Component({
   selector: 'app-modal-ticket-view',
@@ -14,19 +16,28 @@ export class ModalTicketViewComponent extends UnsubscribeOnDestroyAdapter {
 
 
   public Editor: any = ClassicEditor;
+  noteLavorazione:string;
+
+
   constructor(@Inject(MAT_DIALOG_DATA) public element: any
       , public dialogRef: MatDialogRef<ModalTicketViewComponent>,
-              public homeservice: HomeService) {
+              public homeservice: HomeService,
+              private authservice:AuthService) {
     super();
+    this.noteLavorazione=element.element.noteOperatore;
     //console.log("ELEMENTO"+JSON.stringify(element))
+  }
+
+  get CU(){
+    return this.authservice.currentUserValue
   }
 
   close(): void {
     this.dialogRef.close();
   }
 
-  updateStatus() {
-    this.subs.sink = this.homeservice.updateStatusTicket(this.element.element.id).subscribe({
+  updateNoteLavorazione() {
+    this.subs.sink = this.homeservice.updateNoteLavorazioneTicket(this.element.element.id,this.noteLavorazione).subscribe({
       next: (res: any) => {
         if (res) {
           Swal.fire({

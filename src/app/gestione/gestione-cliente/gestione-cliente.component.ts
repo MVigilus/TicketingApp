@@ -76,8 +76,10 @@ export class GestioneClienteComponent extends UnsubscribeOnDestroyAdapter implem
       data: {action: "edit", cliente: element},
     });
 
+
     dialogRef.afterClosed().subscribe(result => {
       this.loadDataTabble()
+
     });
 
   }
@@ -100,7 +102,10 @@ export class GestioneClienteComponent extends UnsubscribeOnDestroyAdapter implem
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.loadDataTabble()
+      setTimeout(()=>{
+        this.loadDataTabble()
+
+      },2500)
     });
   }
 
@@ -108,6 +113,7 @@ export class GestioneClienteComponent extends UnsubscribeOnDestroyAdapter implem
     this.subs.sink = this.adminservice.getAllClienti().subscribe({
       next: (res) => {
         if (res) {
+          console.log(JSON.stringify(res))
           this.dataSource.data = res;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;

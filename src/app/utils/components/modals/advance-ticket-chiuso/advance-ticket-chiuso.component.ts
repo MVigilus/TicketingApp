@@ -35,7 +35,7 @@ export class AdvanceTicketChiusoComponent extends UnsubscribeOnDestroyAdapter {
       cancelButtonText: "Annulla"
     }).then((result) => {
       if (result.value) {
-        this.subs.sink = this.homeservice.updateStatusTickeChiuso(this.element).subscribe({
+        this.subs.sink = this.homeservice.updateStatusTickeChiuso(this.element.element).subscribe({
           next: res => {
             Swal.fire('Ticket Chiuso!', 'Il ticket è stato chiuso con successo', 'success');
           },

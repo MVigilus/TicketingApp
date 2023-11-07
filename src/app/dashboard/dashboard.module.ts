@@ -11,6 +11,7 @@ import {SharedModule} from "../utils/shared/shared.module";
 import {HomeComponent} from './home/home.component';
 import {HomeAdminComponent} from './home-admin/home-admin.component';
 import {ProfileComponent} from './profile/profile.component';
+import {AppModule} from "../app.module";
 
 
 @NgModule({

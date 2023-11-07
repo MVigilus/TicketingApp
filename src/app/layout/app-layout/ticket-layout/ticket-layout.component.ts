@@ -13,6 +13,11 @@ import {TicketService} from "@core/services/ticketing/ticket.service";
 import {TicketReq} from "@core/model/ticketing/TicketReq";
 import Swal from 'sweetalert2';
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
+import {
+  AdvanceTicketChiusoComponent
+} from "../../../utils/components/modals/advance-ticket-chiuso/advance-ticket-chiuso.component";
+import {MatDialog} from "@angular/material/dialog";
+import {LoginTicketComponent} from "../../../utils/components/modals/login-ticket/login-ticket.component";
 
 
 @Component({
@@ -27,9 +32,53 @@ export class TicketLayoutComponent extends UnsubscribeOnDestroyAdapter
   public cliente!: ClienteTicket;
   logoUrl!: SafeUrl;
   isLoading:boolean=false;
+  isImageLoading:boolean=false;
+  authenticated:boolean=true;
 
 
   public ticketForm!:UntypedFormGroup;
+
+  OpenModal(){
+    this.authenticated=false;
+    const dialogRef = this.dialog.open(LoginTicketComponent, {
+      data: this.cliente.id,
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.authenticated=true;
+      this.isLoading=true
+      var ticket = new TicketReq(this.ticketForm.value)
+      this.initForm();
+      this.subs.sink = this.ticketingservice
+        .InsertTicket(ticket)
+        .subscribe({
+          next: (res) => {
+            if (res) {
+              Swal.fire({
+                icon: 'success',
+                title: 'Richiesta inviata con Successo',
+                text: "a breve riceverà una mail di conferma",
+                footer: '',
+              });
+            }
+          },
+          error: () => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Qualcosa è andato storto contattare admin!',
+              footer: '' +
+                '',
+            });
+          },
+          complete:()=>{
+            this.initForm();
+            this.isLoading=false;
+          }
+        });
+    });
+  }
 
   direction!: Direction;
   public config!: InConfiguration;
@@ -42,7 +91,8 @@ export class TicketLayoutComponent extends UnsubscribeOnDestroyAdapter
     private ticketingservice:TicketService,
     private router:Router,
     private fb:UntypedFormBuilder,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    public dialog: MatDialog
   ) {
 
     super();
@@ -55,12 +105,27 @@ export class TicketLayoutComponent extends UnsubscribeOnDestroyAdapter
       },
       error: () => {
         this.router.navigate(['/clienteNotFound']);
+      },
+      complete:()=>{
+        this.initForm();
+
       }
     })
 
-    this.subs.sink=this.ticketingservice.getLogoCliente(this.route.snapshot.paramMap.get("id")).subscribe((data) => {
-      const blob = new Blob([data], { type: 'image/png' });
-      this.logoUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+
+
+    this.subs.sink=this.ticketingservice.getLogoCliente(this.route.snapshot.paramMap.get("id")).subscribe({
+      next:(data) => {
+        this.isImageLoading=true
+        const blob = new Blob([data], { type: 'image/png' });
+        this.logoUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+      },
+      error:()=>{
+
+      },
+      complete:()=>{
+        this.isImageLoading=false
+      }
     });
 
 
@@ -196,52 +261,26 @@ export class TicketLayoutComponent extends UnsubscribeOnDestroyAdapter
     return this.ticketForm.controls;
   }
 
-  ngOnInit(): void {
-    localStorage.clear()
+  initForm(){
     this.ticketForm=this.fb.group({
       nominativo:['',Validators.required],
       codice: [this.route.snapshot.paramMap.get("id"), Validators.required],
-      telefono: ['', [Validators.required, Validators.pattern("^(\\((00|\\+)39\\)|(00|\\+)39)?(38[890]|34[7-90]|36[680]|33[3-90]|32[89])\\d{7}$")]],
+      telefono: ['', [Validators.required, Validators.maxLength(11), Validators.minLength(4)]],
       descrizione: ['', Validators.required],
       mail: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9.!#$%&\'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$')]]
     });
+  }
 
-
+  ngOnInit(): void {
+    localStorage.clear()
   }
 
   onSubmit() {
     if (this.ticketForm.invalid) {
       return;
     } else {
-      this.isLoading=true
-      var ticket = new TicketReq(this.ticketForm.value)
-      this.subs.sink = this.ticketingservice
-        .InsertTicket(ticket)
-        .subscribe({
-          next: (res) => {
-            if (res) {
-              Swal.fire({
-                icon: 'success',
-                title: 'Richiesta inviata con Successo',
-                text: "a breve riceverà una mail di conferma",
-                footer: '',
-              });
-            }
-          },
-          error: () => {
-            Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: 'Qualcosa è andato storto contattare admin!',
-              footer: '' +
-                '',
-            });
-          },
-          complete:()=>{
-            this.redirectToSamePage();
-            this.isLoading=false;
-          }
-        });
+      this.OpenModal();
+
     }
   }
 
@@ -251,5 +290,7 @@ export class TicketLayoutComponent extends UnsubscribeOnDestroyAdapter
       this.router.navigateByUrl(currentUrl);
     });
   }
+
+
 
 }

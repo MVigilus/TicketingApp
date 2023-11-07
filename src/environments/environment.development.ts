@@ -8,8 +8,10 @@ export const environment = {
   servizi:{
     auth:{
       login:"auth/login",
+      loginCliente:"auth/loginCliente",
       logout: "auth/logout",
       resetPassword: "auth/resetPassword",
+      editProfile:"auth/editProfile",
       checkJWT: "auth/checkJWT"
     },
     api:{
@@ -17,31 +19,42 @@ export const environment = {
     },
     ticketing:{
       checkCliente: "ticketing/checkCliente",
+      checkClientePassword:"ticketing/checkClientePassword",
       insertTicket: "ticketing/insertTicket",
       getLogoCliente: "ticketing/getLogo",
+    },
+    clienteService:{
+      getResumeCliente:"monitoring/getResume",
+      getAllImpiegatoName: "monitoring/getAllImpiegatoName",
     },
     operatoreService: {
       getResumeOperatore: "operator/getResumeOperatore",
       updateTicketStatus: "operator/updateTicketStatus",
+      updateTicketNoteLavorazione: "operator/updateTicketNoteLavorazione",
       updateTicketStatusLav: "operator/updateTicketStatusLav",
       updateTicketStatusChiuso: "operator/updateTicketStatusChiuso"
+
     },
     adminService: {
       getAllClientiCodes: "admin/getAllClientiCodes",
+      editClientePassword: "admin/editPwdCliente",
+      editClienteTicketPassword: "admin/editPwdTicket",
+      exportExcel:"admin/exportTicketAdmin",
       getAllImpiegatoName: "admin/getAllImpiegatoName",
       getAllOperatore: "admin/getAllOperatore",
+      getDashboardResume: "admin/dashboardGeneraleResume",
       getAllOperatoreFR: "admin/getAllOperatoreFR",
       getAllCliente: "admin/getAllCliente",
-      getDashboardResume: "admin/dashboardGeneraleResume",
       insertCliente: "admin/insertCliente",
       insertLogoCliente: "admin/insertLogoCliente",
       deleteCliente: "admin/deleteCliente",
       deleteOperatore: "admin/FR",
       getAllTicketAdmin: "admin/getAllTicketAdmin",
-      insertOperatore: "admin/InsertOperatore"
+      insertOperatore: "admin/InsertOperatore",
     }
   }
 };
+
 
 /*
  * For easier debugging in development mode, you can import the following file

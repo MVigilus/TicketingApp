@@ -66,6 +66,10 @@
                 </ng-container>
               </td>
             </ng-container>
+            <ng-container matColumnDef="readOnly">
+              <th *matHeaderCellDef  width="5%" mat-header-cell mat-sort-header>Sola Lettura</th>
+              <td *matCellDef="let element" mat-cell> {{(element.readOnly)?"Si":"No"}} </td>
+            </ng-container>
             <ng-container matColumnDef="action">
               <th *matHeaderCellDef mat-header-cell width="10%">Azioni</th>
               <td *matCellDef="let element" mat-cell>

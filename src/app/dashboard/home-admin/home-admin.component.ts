@@ -20,6 +20,7 @@ import {
 import {AdminService} from "@core/services/admin.service";
 import Swal from "sweetalert2";
 import {TicketResumeOperatore} from "@core/model/ticketing/ticketResumeOperatore";
+import {getYears} from "../../utils/functions";
 
 export type ChartOptions = {
   series?: ApexAxisChartSeries;
@@ -51,7 +52,7 @@ export class HomeAdminComponent extends UnsubscribeOnDestroyAdapter implements O
   public AndamentoOperatoreOptions: Partial<ChartOptions>;
   public AndamentoStatoOptions: Partial<ChartOptions>;
 
-  public ticketResumeOperatore: TicketResumeOperatore = {totali: 0, aperti: 0, chiusi: 0, lavorazione: 0};
+  public ticketResumeOperatore: TicketResumeOperatore = {} as TicketResumeOperatore;
 
   public clienti: string[] = [];
   public operatoriNames: string[] = [];
@@ -64,7 +65,7 @@ export class HomeAdminComponent extends UnsubscribeOnDestroyAdapter implements O
     this.AndamentoStatoOptions = this.getChartBarOption();
 
 
-    this.AndamentoStatoOptions.xaxis!.categories = ['Aperto', 'In Lavorazione', 'Chiusi']
+    this.AndamentoStatoOptions.xaxis!.categories = ['Aperti', 'In Lavorazione', 'Chiusi']
     this.AndamentoOperatoreOptions.xaxis!.categories = ['In Lavorazione', 'Chiusi'];
 
     this.AndamentoStatoOptions.series = []
@@ -147,29 +148,25 @@ export class HomeAdminComponent extends UnsubscribeOnDestroyAdapter implements O
     }
   }
 
-  getYears(): number[] {
-    const currentYear = new Date().getFullYear();
-    const years = [];
-    for (let year = currentYear; year >= 2000; year--) {
-      years.push(year);
-    }
-    return years;
-  }
+
 
   UpdateChart() {
+
+
+
     if (this.selectPeriodo[0] != "all" || this.selectPeriodo[1] != "all") {
 
       this.subs.sink = this.adminSerivice.getAdminResumeParam(Number((this.selectPeriodo[0] != "all" ? this.selectPeriodo[0] : 0)), Number((this.selectPeriodo[1] != "all" ? this.selectPeriodo[1] : 0))).subscribe({
         next: res => {
-          console.log(res);
           this.clienti = res.codiciCliente;
           this.operatoriNames = res.codiciOperatore;
           this.ticketResumeOperatore = res.ticketResumeOperatore;
 
-          console.log(res.andamentoCliente)
 
           this.AndamentoStatoOptions.series = res.andamentoCliente
           this.AndamentoOperatoreOptions.series = res.andamentoOperatore
+          console.log(this.ticketResumeOperatore)
+
 
         },
         error: () => {
@@ -191,10 +188,11 @@ export class HomeAdminComponent extends UnsubscribeOnDestroyAdapter implements O
           this.operatoriNames = res.codiciOperatore;
           this.ticketResumeOperatore = res.ticketResumeOperatore;
 
-          console.log(res.andamentoCliente)
 
           this.AndamentoStatoOptions.series = res.andamentoCliente
           this.AndamentoOperatoreOptions.series = res.andamentoOperatore
+          console.log(this.ticketResumeOperatore)
+
 
         },
         error: () => {
@@ -209,9 +207,12 @@ export class HomeAdminComponent extends UnsubscribeOnDestroyAdapter implements O
       })
     }
 
+
   }
 
   ngOnInit(): void {
     this.UpdateChart();
   }
+
+  protected readonly getYears = getYears;
 }

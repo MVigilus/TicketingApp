@@ -6,4 +6,6 @@ export interface ClienteElementTable {
   telefono: string,
   email: string,
   alias: string,
+  password:string
+  passwordticket:string
 }

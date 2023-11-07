@@ -1,4 +1,8 @@
-<div [dir]="direction">
+
+
+<div [dir]="direction" *ngIf="authenticated">
+
+
 <section class="content">
   <div class="container-fluid">
     <div class="row">
@@ -23,9 +27,30 @@
                 <img [src]="logoUrl"  class="img-fluid" alt="Logo">
               </div>
             </div>
+            <!--<div class="row align-center" *ngIf="!logoUrl">
+              <div class="preloader pl-size-l">
+                <div class="spinner-layer pl-orange">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+              </div>
+            </div>-->
             <div class="row" >
               <div class="" *ngIf="isLoading">
-                <app-page-loader></app-page-loader>
+                <div class="preloader pl-size-l">
+                  <div class="spinner-layer pl-orange">
+                    <div class="circle-clipper left">
+                      <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                      <div class="circle"></div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2" *ngIf="!isLoading">
                 <form class="composeForm" [formGroup]="ticketForm">

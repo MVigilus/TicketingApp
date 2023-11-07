@@ -7,28 +7,7 @@
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="card">
-          <div class="header">
-            <div class="col-lg-5 col-md-5 col-sm-5">
-              <h2>
-                <strong>Gestione Tickets</strong>
-              </h2>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
-              Usa questa Select per visualizzare l'andamento dei ticket per dipendente
-              <mat-select (selectionChange)="changeHash($event)"
-                          [(value)]="selectedValue">
-                <mat-option *ngFor="let op of clienti" [value]="op">
-                  {{op}}
-                </mat-option>
-              </mat-select>
-            </div>
-            <div class="col-lg col-md col-sm">
-              <button (click)="loadDataTabble()" color="primary" mat-mini-fab>
-                <mat-icon class="col-white">refresh</mat-icon>
-              </button>
-            </div>
 
-          </div>
           <div class="body">
             <div class="row">
               <div class="col-lg-3 col-sm-6">
@@ -68,6 +47,77 @@
                 </div>
               </div>
             </div>
+
+            <div class="row">
+              <div class="header">
+                <div class="col-lg-5 col-md-5 col-sm-5">
+                  <h2>
+                    <strong>Filtri per data</strong>
+                  </h2>
+                </div>
+              </div>
+              <div class="col-lg-1 col-md-1 col-sm-1">
+                Anno
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Anno</mat-label>
+                  <mat-select [(ngModel)]="selectPeriodo[0]" [disabled]="checkComboStatus(1)" >
+                    <mat-option value="all">Tutti</mat-option>
+                    <ng-container *ngFor="let year of getYears();">
+                      <mat-option [value]="year">{{ year }}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-1 col-md-1 col-sm-1">
+                Mese
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Mese</mat-label>
+                  <mat-select [(ngModel)]="selectPeriodo[1]" [disabled]="checkComboStatus(1)" >
+                    <mat-option value="all">Tutti</mat-option>
+                    <mat-option value="1">Gennaio</mat-option>
+                    <mat-option value="2">Febbraio</mat-option>
+                    <mat-option value="3">Marzo</mat-option>
+                    <mat-option value="4">Aprile</mat-option>
+                    <mat-option value="5">Maggio</mat-option>
+                    <mat-option value="6">Giugno</mat-option>
+                    <mat-option value="7">Luglio</mat-option>
+                    <mat-option value="8">Agosto</mat-option>
+                    <mat-option value="9">Settembre</mat-option>
+                    <mat-option value="10">Ottobre</mat-option>
+                    <mat-option value="11">Novembre</mat-option>
+                    <mat-option value="12">Dicembre</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-3">
+                Periodo da
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Seleziona una data</mat-label>
+                  <input matInput [matDatepicker]="picker" [disabled]="checkComboStatus(2)" [(ngModel)]="selectPeriodo[2]" (dateChange)="changeDatePicker(2)">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-3">
+                Periodo a
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Seleziona una data</mat-label>
+                  <input matInput [matDatepicker]="picker2" [disabled]="this.selectPeriodo[2]==''" [(ngModel)]="selectPeriodo[3]" (dateChange)="changeDatePicker(3)">
+                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                  <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-2">
+                <button (click)="loadDataTabble()" color="primary" mat-mini-fab>
+                  <mat-icon class="col-white">refresh</mat-icon>
+                </button>
+                <button (click)="exportExcel()" color="primary" mat-mini-fab>
+                  <mat-icon class="col-white">refresh</mat-icon>
+                </button>
+              </div>
+
+            </div>
+
             <div class="table-responsive">
               <table [dataSource]="dataSource" class="w-100" mat-table matSort>
                 <ng-container matColumnDef="checked">
@@ -83,25 +133,25 @@
                   </th>
                   <td *matCellDef="let element" mat-cell> {{element.cliente}} </td>
                 </ng-container>
+                <ng-container matColumnDef="id">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>N° Ticket</th>
+                  <td *matCellDef="let element" mat-cell> {{element.id}} </td>
+                </ng-container>
                 <ng-container matColumnDef="nominativo">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header> Aperto Da</th>
+
+                  <th *matHeaderCellDef mat-header-cell >Operatore <br>
+                    <mat-select (selectionChange)="applyEmpFilter($event,empFilters[2])"
+                                [(value)]="empFilters[2].defaultValue">
+                      <mat-option *ngFor="let op of empFilters[2].options" [value]="op">
+                        {{op}}
+                      </mat-option>
+                    </mat-select>
+                  </th>
                   <td *matCellDef="let element" mat-cell> {{element.nominativo}} </td>
-                </ng-container>
-                <ng-container matColumnDef="email">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header> Email</th>
-                  <td *matCellDef="let element" mat-cell> {{element.email}} </td>
-                </ng-container>
-                <ng-container matColumnDef="telefono">
-                  <th *matHeaderCellDef mat-header-cell> Telefono</th>
-                  <td *matCellDef="let element" mat-cell> {{element.telefono}} </td>
                 </ng-container>
                 <ng-container matColumnDef="dataPresaInCarico">
                   <th *matHeaderCellDef mat-header-cell> Data presa in carico</th>
                   <td *matCellDef="let element" mat-cell> {{element.dataPresaInCarico | date:'dd-MM-yyyy'}} </td>
-                </ng-container>
-                <ng-container matColumnDef="noteOperatore">
-                  <th *matHeaderCellDef mat-header-cell> Note Operatore</th>
-                  <td *matCellDef="let element" mat-cell> {{element.noteOperatore}} </td>
                 </ng-container>
                 <ng-container matColumnDef="dataChiusura">
                   <th *matHeaderCellDef mat-header-cell>Data Chiusura</th>
@@ -111,8 +161,8 @@
                   <th *matHeaderCellDef mat-header-cell> Stato
                     <mat-select (selectionChange)="applyEmpFilter($event,empFilters[1])"
                                 [(value)]="empFilters[1].defaultValue">
-                      <mat-option *ngFor="let op of empFilters[1].options" [value]="op">
-                        {{op}}
+                      <mat-option *ngFor="let op of empFilters[1].options; let i = index" [value]="op">
+                        {{StatoSelect[i]}}
                       </mat-option>
                     </mat-select>
                   </th>

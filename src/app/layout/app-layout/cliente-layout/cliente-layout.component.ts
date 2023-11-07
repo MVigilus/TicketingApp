@@ -1,0 +1,58 @@
+import {Direction} from '@angular/cdk/bidi';
+import {Component, Inject, Renderer2} from '@angular/core';
+import {DOCUMENT} from '@angular/common';
+import {InConfiguration} from "@core/model/config.interface";
+import {DirectionService} from "@core/services/direction.service";
+import {ConfigService} from "@config";
+
+@Component({
+  selector: 'app-cliente-layout',
+  templateUrl: './cliente-layout.component.html',
+  styleUrls: [],
+})
+export class ClienteLayoutComponent {
+  direction!: Direction;
+  public config!: InConfiguration;
+  constructor(
+    @Inject(DOCUMENT) private document: Document,
+    private directoryService: DirectionService,
+    private configService: ConfigService,
+    private renderer: Renderer2
+  ) {
+    this.config = this.configService.configData;
+    this.directoryService.currentData.subscribe((currentData) => {
+      if (currentData) {
+        this.direction = currentData === 'ltr' ? 'ltr' : 'rtl';
+      } else {
+        if (localStorage.getItem('isRtl')) {
+          if (localStorage.getItem('isRtl') === 'true') {
+            this.direction = 'rtl';
+          } else if (localStorage.getItem('isRtl') === 'false') {
+            this.direction = 'ltr';
+          }
+        } else {
+          if (this.config) {
+            if (this.config.layout.rtl) {
+              this.direction = 'rtl';
+              localStorage.setItem('isRtl', 'true');
+            } else {
+              this.direction = 'ltr';
+              localStorage.setItem('isRtl', 'false');
+            }
+          }
+        }
+      }
+    });
+
+    // set theme on startup
+    if (localStorage.getItem('theme')) {
+      this.renderer.removeClass(this.document.body, this.config.layout.variant);
+      this.renderer.addClass(
+        this.document.body,
+        localStorage.getItem('theme') as string
+      );
+    } else {
+      this.renderer.addClass(this.document.body, this.config.layout.variant);
+    }
+  }
+}

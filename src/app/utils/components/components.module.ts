@@ -11,10 +11,11 @@ import {
 import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
 import { EditLogoClienteComponent } from './modals/edit-logo-cliente/edit-logo-cliente.component';
 import { AdvanceTicketChiusoComponent } from './modals/advance-ticket-chiuso/advance-ticket-chiuso.component';
+import { LoginTicketComponent } from './modals/login-ticket/login-ticket.component';
 
 
 @NgModule({
-  declarations: [FileUploadComponent, BreadcrumbComponent, ModalTicketViewComponent, EditOperatoreModalComponent, EditClienteModalComponent, AdvanceTicketLavorazioneComponent, EditLogoClienteComponent, AdvanceTicketChiusoComponent],
+  declarations: [FileUploadComponent, BreadcrumbComponent, ModalTicketViewComponent, EditOperatoreModalComponent, EditClienteModalComponent, AdvanceTicketLavorazioneComponent, EditLogoClienteComponent, AdvanceTicketChiusoComponent, LoginTicketComponent],
   imports: [SharedModule, CKEditorModule],
   exports: [FileUploadComponent, BreadcrumbComponent],
 })

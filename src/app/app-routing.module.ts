@@ -6,6 +6,7 @@ import {ClienteNotFoundComponent} from "./wildcard/cliente-not-found/cliente-not
 import {TicketLayoutComponent} from "./layout/app-layout/ticket-layout/ticket-layout.component";
 import {MainLayoutComponent} from "./layout/app-layout/main-layout/main-layout.component";
 import {AuthLayoutComponent} from "./layout/app-layout/auth-layout/auth-layout.component";
+import {ClienteLayoutComponent} from "./layout/app-layout/cliente-layout/cliente-layout.component";
 
 const routes: Routes = [
   {
@@ -36,6 +37,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('./authentication/authentication.module').then(
         (m) => m.AuthenticationModule
+      ),
+  },
+  {
+    path: 'monitoring',
+    component: ClienteLayoutComponent,
+    loadChildren: () =>
+      import('./cliente/cliente.module').then(
+        (m) => m.ClienteModule
       ),
   },
   {

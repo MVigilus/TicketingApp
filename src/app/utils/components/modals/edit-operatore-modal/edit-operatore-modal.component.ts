@@ -49,6 +49,7 @@ export class EditOperatoreModalComponent extends UnsubscribeOnDestroyAdapter imp
 
     this.contactsForm = this.createContactForm();
     this.contactsForm?.get('clienti')?.setValue(this.operatore.clienti);
+    this.contactsForm?.get('readOnly')?.setValue((this.operatore.readOnly)?"true":"false");
 
 
   }
@@ -67,7 +68,8 @@ export class EditOperatoreModalComponent extends UnsubscribeOnDestroyAdapter imp
       nominativo: [this.operatore.nominativo, Validators.required],
       email: [this.operatore.email, Validators.required],
       username: [this.operatore.username, Validators.required],
-      clienti: [this.clienti, Validators.required]
+      clienti: [this.clienti, Validators.required],
+      readOnly:[(this.operatore.readOnly)?"true":"false",Validators.required]
     });
   }
 
