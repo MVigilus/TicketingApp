@@ -7,6 +7,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../utils/shared/shared.module";
 import {MaterialModule} from "../utils/material/material.module";
 import {ForgotPasswordComponent} from "./forgot-password/forgot-password.component";
+import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
 
 
 @NgModule({
@@ -14,13 +15,14 @@ import {ForgotPasswordComponent} from "./forgot-password/forgot-password.compone
     LoginPageComponent,
     ForgotPasswordComponent,
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AuthenticationRoutingModule,
-    SharedModule,
-    MaterialModule
-  ]
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        AuthenticationRoutingModule,
+        SharedModule,
+        MaterialModule,
+        CKEditorModule
+    ]
 })
 export class AuthenticationModule { }

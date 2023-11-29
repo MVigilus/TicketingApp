@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import Swal from "sweetalert2";
 import {HomeService} from "@core/services/dashboard/home.service";
 import {UnsubscribeOnDestroyAdapter} from "../../../UnsubscribeOnDestroyAdapter";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import {CKEditorComponent} from "@ckeditor/ckeditor5-angular";
 import {AuthService} from "@core/services/auth.service";
 
@@ -59,6 +59,4 @@ export class ModalTicketViewComponent extends UnsubscribeOnDestroyAdapter {
       },
     });
   }
-
-  protected readonly ClassicEditor = ClassicEditor;
 }

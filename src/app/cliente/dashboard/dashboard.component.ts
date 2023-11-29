@@ -23,6 +23,8 @@ import {EmpFilter} from "../../dashboard/home/home.component";
 import {getYears} from "../../utils/functions";
 import moment = require("moment");
 import {AdminService} from "@core/services/admin.service";
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
+import {interval} from "rxjs";
 
 @Component({
   selector: 'app-dashboard',
@@ -67,12 +69,23 @@ export class DashboardComponent  extends UnsubscribeOnDestroyAdapter
     public dialog: MatDialog,
     private authService: AuthService,
     private homeservice: HomeService,
+    private sanitizer: DomSanitizer,
 
   ) {
 
     super();
 
     this.dataSource = new MatTableDataSource<TicketTableElement>([]);
+
+    this.subs.sink=this.homeservice.getLogoCliente(this.authService.currentUserValue.nominativo).subscribe({
+      next:(data) => {
+        const blob = new Blob([data], { type: 'image/png' });
+        this.logoUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+      },
+      error:()=>{
+
+      }
+    });
 
 
 
@@ -82,8 +95,11 @@ export class DashboardComponent  extends UnsubscribeOnDestroyAdapter
       defaultValue: 'Filtra per ...'
     });
 
-  }
+    this.statoSelect=this.empFilters[0].defaultValue
+    this.operatoreSelect=this.empFilters[0].defaultValue
 
+  }
+  logoUrl!: SafeUrl;
   operatoriNames:string[]=[];
 
 
@@ -221,10 +237,20 @@ export class DashboardComponent  extends UnsubscribeOnDestroyAdapter
   ngOnInit(): void {
 
     this.loadDataTabble();
+    this.executeHttpRequestEveryMinute()
 
   }
 
-  applyEmpFilter(ob: MatSelectChange, empfilter: EmpFilter) {
+  statoSelect:string;
+  operatoreSelect:string;
+
+  applyEmpFilter(ob: MatSelectChange, empfilter: EmpFilter,index:any) {
+
+    if(index === 3 ){
+      this.operatoreSelect=ob.value
+    }else{
+      this.statoSelect=ob.value
+    }
 
     this.filterDictionary.set(empfilter.name, ob.value);
     this.dataSource.filter = JSON.stringify(Array.from(this.filterDictionary.entries()));
@@ -255,6 +281,46 @@ export class DashboardComponent  extends UnsubscribeOnDestroyAdapter
         return "badge badge-solid-orange"
     }
     return "";
+  }
+
+  executeHttpRequestEveryMinute() {
+    console.log("ISJWTNOTEXPIREDORNOTEXCLUDED INIT  ")
+
+    this.subs.sink = interval(60000).subscribe(() => {
+      this.authService.CheckJwtCliente().subscribe({
+        next: res => {
+          console.log("ISJWTNOTEXPIREDORNOTEXCLUDED : " + res)
+          if (!res) {
+            this.authService.logout().subscribe((res) => {
+              this.router.navigate(['/monitoring/signin']);
+            });
+          }
+        },
+        error: res => {
+          this.authService.logout().subscribe((res) => {
+            this.router.navigate(['/monitoring/signin']);
+          });
+        }
+      })
+
+
+    });
+
+  }
+
+  exportExcel() {
+    let method='';
+
+    if(this.selectPeriodo[0]!='all' || this.selectPeriodo[1]!='all'){
+      method='annomese'
+    }
+
+    if(this.selectPeriodo[2]!=''){
+      console.log("PERIODO : "+this.selectPeriodo[1])
+      method='periodo'
+    }
+
+    this.subs.sink=this.homeservice.exportResumeTicketCliente(this.authService.currentUserValue.nominativo,method,(method!='periodo')?[this.selectPeriodo[0],this.selectPeriodo[1],this.statoSelect,this.operatoreSelect]:[this.selectPeriodo[2],this.selectPeriodo[3],this.statoSelect,this.operatoreSelect]).subscribe()
   }
 
 

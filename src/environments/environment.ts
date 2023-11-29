@@ -21,14 +21,16 @@ export const environment = {
     },
     clienteService:{
       getResumeCliente:"monitoring/getResume",
-      getAllImpiegatoName: "admin/getAllImpiegatoName",
+      getAllImpiegatoName: "monitoring/getAllImpiegatoName",
+      exportExcel:"monitoring/exportTicket",
     },
     operatoreService: {
       getResumeOperatore: "operator/getResumeOperatore",
       updateTicketStatus: "operator/updateTicketStatus",
       updateTicketNoteLavorazione: "operator/updateTicketNoteLavorazione",
       updateTicketStatusLav: "operator/updateTicketStatusLav",
-      updateTicketStatusChiuso: "operator/updateTicketStatusChiuso"
+      updateTicketStatusChiuso: "operator/updateTicketStatusChiuso",
+      exportExcel:"operator/exportTicket",
 
     },
     adminService: {

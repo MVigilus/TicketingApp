@@ -1,53 +1,83 @@
-<div class="auth-container">
-  <div class="row auth-main">
-    <div class="col-sm-6 px-0 d-none d-sm-block">
-      <div class="left-img" style="background-color: lightskyblue">
-      </div>
-    </div>
-    <div class="col-sm-6 auth-form-section">
-      <div class="form-section">
-        <div class="auth-wrapper">
-          <h1 class="welcome-msg">  Benvenuto su Ticketing ASP Monitoring </h1>
-          <h2 class="login-title">Accedi</h2>
-          <form class="validate-form" [formGroup]="authForm" (ngSubmit)="onSubmit()">
-            <div class="row">
-              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                <mat-form-field class="example-full-width" appearance="outline">
-                  <mat-label>Codice Azienda</mat-label>
-                  <input matInput formControlName="username" />
-                  <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-                  <mat-error *ngIf="authForm.get('username')?.hasError('required')">
-                    Per favore Inserire Codice Azienda
-                  </mat-error>
-                </mat-form-field>
+<div class="auth-container" >
+  <div class="row auth-main align-content-center">
+    <div class="col-sm-3 col-md-3 col-lg-3"></div>
+    <div class="col-sm-6 col-md-6 col-lg-6">
+      <div class="card">
+        <div class="boxs mail_listing">
+          <div class="inbox-center table-responsive">
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th colspan="1">
+                  <div class="inbox-header text-center">
+                    <h1>All Services Provider - Portale Monitoraggio Ticket </h1>
+                  </div>
+                </th>
+              </tr>
+              </thead>
+            </table>
+          </div>
+          <div class="row align-center">
+            <div *ngIf="this.idImg!=null;else elseBlock" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+              <img  [src]="logoUrl"  class="img-fluid"  alt="Logo" *ngIf="logoUrl">
+            </div>
+            <ng-template #elseBlock>
+              <div  class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                <img class="img-fluid" src="assets/images/logo/aspMD.png"/>
+              </div>
+            </ng-template>
+
+          </div>
+          <div class="row" style="padding-bottom: 20px ">
+            <div class="form-section">
+              <div class="auth-wrapper">
+                <form class="validate-form" [formGroup]="authForm" (ngSubmit)="onSubmit()" >
+                  <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                      <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Codice Azienda</mat-label>
+                        <input matInput formControlName="username" />
+                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+                        <mat-error *ngIf="authForm.get('username')?.hasError('required')">
+                          Per favore Inserire Codice Azienda
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xl-12col-lg-12 col-md-12 col-sm-12 mb-2">
+                      <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Password</mat-label>
+                        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                        <a href="#" onClick="return false;" matSuffix (click)="hide = !hide"
+                           [attr.aria-label]="'Nascondi Password'" [attr.aria-pressed]="hide">
+                          <mat-icon class="material-icons-two-tone color-icon m-3" matSuffix>
+                            {{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </a>
+                        <mat-error *ngIf="authForm.get('password')?.hasError('required')">
+                          Per favore inserire la Password
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+                  <div class="container-auth-form-btn">
+                    <div style="text-align:center">
+                      <button mat-raised-button color="primary" [class.auth-spinner]="loading" [disabled]="loading"
+                              class="auth-form-btn" [disabled]="!authForm.valid " type="submit">Accedi</button>
+                    </div>
+                  </div>
+                </form>
               </div>
             </div>
-            <div class="row">
-              <div class="col-xl-12col-lg-12 col-md-12 col-sm-12 mb-2">
-                <mat-form-field class="example-full-width" appearance="outline">
-                  <mat-label>Password</mat-label>
-                  <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
-                  <a href="#" onClick="return false;" matSuffix (click)="hide = !hide"
-                     [attr.aria-label]="'Nascondi Password'" [attr.aria-pressed]="hide">
-                    <mat-icon class="material-icons-two-tone color-icon m-3" matSuffix>
-                      {{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                  </a>
-                  <mat-error *ngIf="authForm.get('password')?.hasError('required')">
-                    Per favore inserire la Password
-                  </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
-            <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
-            <div class="container-auth-form-btn">
-              <div style="text-align:center">
-                <button mat-raised-button color="primary" [class.auth-spinner]="loading" [disabled]="loading"
-                        class="auth-form-btn" [disabled]="!authForm.valid " type="submit">Accedi</button>
-              </div>
-            </div>
-          </form>
+
+          </div>
         </div>
       </div>
+
+
     </div>
+    <div class="col-sm-3 col-md-3 col-lg-3"></div>
   </div>
 </div>
+

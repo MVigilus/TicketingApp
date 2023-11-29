@@ -7,7 +7,7 @@ import {AdminService} from "@core/services/admin.service";
 import {ClienteElementTable} from "@core/model/admin/ClienteElementTable";
 import Swal from "sweetalert2";
 import {InsertClienteModel} from "@core/model/admin/InsertClienteModel";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 @Component({
   selector: 'app-edit-cliente-modal',

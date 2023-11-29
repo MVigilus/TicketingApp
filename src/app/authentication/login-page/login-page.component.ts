@@ -12,6 +12,7 @@ import {AuthService} from "@core/services/auth.service";
 export class LoginPageComponent extends UnsubscribeOnDestroyAdapter
   implements OnInit
 {
+
   authForm!: UntypedFormGroup;
   submitted = false;
   loading = false;
@@ -75,4 +76,5 @@ export class LoginPageComponent extends UnsubscribeOnDestroyAdapter
         });
     }
   }
+
 }

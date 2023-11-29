@@ -89,6 +89,10 @@ export class HomeComponent extends UnsubscribeOnDestroyAdapter
       defaultValue: 'Filtra per ...'
     });
 
+    this.statoSelect=this.empFilters[1].defaultValue
+    this.clienteSelect=this.empFilters[0].defaultValue
+
+
   }
 
   public selectPeriodo: string[] = ['all', 'all','','']
@@ -203,7 +207,17 @@ export class HomeComponent extends UnsubscribeOnDestroyAdapter
 
   }
 
-  applyEmpFilter(ob: MatSelectChange, empfilter: EmpFilter) {
+  statoSelect:string;
+  clienteSelect:string;
+
+
+  applyEmpFilter(ob: MatSelectChange, empfilter: EmpFilter,index:number) {
+
+    if(index===0){
+      this.clienteSelect=ob.value
+    }else{
+      this.statoSelect=ob.value
+    }
 
     this.filterDictionary.set(empfilter.name, ob.value);
     this.dataSource.filter = JSON.stringify(Array.from(this.filterDictionary.entries()));
@@ -298,6 +312,21 @@ export class HomeComponent extends UnsubscribeOnDestroyAdapter
     dialogRef.afterClosed().subscribe(result => {
       this.loadDataTabble()
     });
+  }
+
+  exportExcel() {
+    let method='';
+
+    if(this.selectPeriodo[0]!='all' || this.selectPeriodo[1]!='all'){
+      method='annomese'
+    }
+
+    if(this.selectPeriodo[2]!=''){
+      console.log("PERIODO : "+this.selectPeriodo[1])
+      method='periodo'
+    }
+
+    this.subs.sink=this.homeservice.exportResumeTicketOperator(method,(method!='periodo')?[this.selectPeriodo[0],this.selectPeriodo[1],this.statoSelect,this.clienteSelect]:[this.selectPeriodo[2],this.selectPeriodo[3],this.statoSelect,this.clienteSelect]).subscribe()
   }
 
 }

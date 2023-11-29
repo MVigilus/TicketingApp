@@ -88,6 +88,16 @@ export class AuthService {
 
   }
 
+  CheckJwtCliente() {
+    return this.http.post<boolean>(`${environment.apiUrl}/${environment.servizi.auth.checkJWT}`, this.currentUserValue.token).pipe(
+      map((res) => {
+        return res;
+      })
+    );
+    // Use RxJS interval operator to execute the HTTP request every minute
+
+  }
+
   editProfile(body:Editprofile){
     return this.http.post<User>(`${environment.apiUrl}/${environment.servizi.auth.editProfile}`,body).pipe(
       map((user) => {

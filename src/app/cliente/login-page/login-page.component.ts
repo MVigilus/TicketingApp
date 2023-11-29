@@ -3,6 +3,8 @@ import {UnsubscribeOnDestroyAdapter} from "../../utils/UnsubscribeOnDestroyAdapt
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "@core/services/auth.service";
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
+import {HomeService} from "@core/services/dashboard/home.service";
 
 @Component({
   selector: 'app-login-page',
@@ -17,13 +19,34 @@ export class LoginPageComponent extends UnsubscribeOnDestroyAdapter
   loading = false;
   error = '';
   hide = true;
+
+  logoUrl!: SafeUrl;
+  idImg:any;
+
   constructor(
     private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private homeservice:HomeService,
+    private sanitizer: DomSanitizer,
   ) {
     super();
+    this.idImg=this.route.snapshot.paramMap.get("id")
+    if(this.idImg==null){
+
+    }else{
+      this.subs.sink=this.homeservice.getLogoCliente(this.idImg).subscribe({
+        next:(data) => {
+          const blob = new Blob([data], { type: 'image/png' });
+          this.logoUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+        },
+        error:()=>{
+
+        }
+      });
+    }
+
     localStorage.clear();
   }
 

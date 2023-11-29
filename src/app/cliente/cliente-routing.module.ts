@@ -15,6 +15,10 @@ const routes: Routes = [
     component: LoginPageComponent,
   },
   {
+    path: "signin/:id",
+    component: LoginPageComponent,
+  },
+  {
     path:"dashboard",
     component:DashboardComponent,
     canActivate:[ClienteAuthenticationGuard]

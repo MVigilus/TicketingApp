@@ -56,6 +56,11 @@ export class GestioneRichiesteComponent extends UnsubscribeOnDestroyAdapter impl
 
     this.dataSource = new MatTableDataSource<TicketTableElement>([]);
 
+    this.statoSelect=""
+    this.operatore='Filtra per ...'
+    this.cliente='Filtra per ...'
+
+
 
   }
 
@@ -95,6 +100,9 @@ export class GestioneRichiesteComponent extends UnsubscribeOnDestroyAdapter impl
           options: ['Filtra per ...', 'APERTO', 'IN_LAVORAZIONE', 'CHIUSO'],
           defaultValue: 'Filtra per ...'
         };
+
+        this.statoSelect=this.empFilters[1].defaultValue
+
 
       },
       error: res => {
@@ -169,7 +177,23 @@ export class GestioneRichiesteComponent extends UnsubscribeOnDestroyAdapter impl
 
   }
 
-  applyEmpFilter(ob: MatSelectChange, empfilter: EmpFilter) {
+  statoSelect:string;
+  operatore:string;
+  cliente:string;
+
+  applyEmpFilter(ob: MatSelectChange, empfilter: EmpFilter,index:number) {
+
+    switch (index){
+      case 2:
+        this.operatore=ob.value
+        break
+      case 0:
+        this.cliente=ob.value;
+        break
+      default:
+        this.statoSelect=ob.value;
+        break
+    }
 
     this.filterDictionary.set(empfilter.name, ob.value);
     this.dataSource.filter = JSON.stringify(Array.from(this.filterDictionary.entries()));
@@ -264,6 +288,6 @@ export class GestioneRichiesteComponent extends UnsubscribeOnDestroyAdapter impl
       method='periodo'
     }
 
-    this.subs.sink=this.adminService.exportAdminResumeTicket(method,(method!='periodo')?[this.selectPeriodo[0],this.selectPeriodo[1]]:[this.selectPeriodo[2],this.selectPeriodo[3]]).subscribe()
+    this.subs.sink=this.adminService.exportAdminResumeTicket(method,(method!='periodo')?[this.selectPeriodo[0],this.selectPeriodo[1],this.statoSelect,this.cliente,this.operatore]:[this.selectPeriodo[2],this.selectPeriodo[3],this.statoSelect,this.cliente,this.operatore]).subscribe()
   }
 }

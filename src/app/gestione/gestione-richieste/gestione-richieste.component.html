@@ -56,8 +56,8 @@
                   </h2>
                 </div>
               </div>
-              <div class="col-lg-1 col-md-1 col-sm-1">
-                Anno
+              <div class="col-lg-2 col-md-2 col-sm-2">
+                <br>
                 <mat-form-field class="example-full-width" appearance="outline">
                   <mat-label>Anno</mat-label>
                   <mat-select [(ngModel)]="selectPeriodo[0]" [disabled]="checkComboStatus(1)" >
@@ -68,8 +68,8 @@
                   </mat-select>
                 </mat-form-field>
               </div>
-              <div class="col-lg-1 col-md-1 col-sm-1">
-                Mese
+              <div class="col-lg-2 col-md-2 col-sm-2">
+                <br>
                 <mat-form-field class="example-full-width" appearance="outline">
                   <mat-label>Mese</mat-label>
                   <mat-select [(ngModel)]="selectPeriodo[1]" [disabled]="checkComboStatus(1)" >
@@ -107,13 +107,17 @@
                   <mat-datepicker #picker2></mat-datepicker>
                 </mat-form-field>
               </div>
-              <div class="col-lg-2 col-md-2 col-sm-2">
-                <button (click)="loadDataTabble()" color="primary" mat-mini-fab>
-                  <mat-icon class="col-white">refresh</mat-icon>
+              <div class="col-lg col-md col-sm align-right">
+                <button (click)="loadDataTabble()" color="primary" style="margin-top: 10px" mat-mini-fab>
+                  <mat-icon class="col-white" >refresh</mat-icon>
                 </button>
-                <button (click)="exportExcel()" color="primary" mat-mini-fab>
-                  <mat-icon class="col-white">refresh</mat-icon>
-                </button>
+
+              </div>
+              <div class="col-lg col-md col-sm">
+                <div class="export-button m-l-10" matTooltip="XLSX">
+                  <img src="assets/images/icons/xlsx.png" style="margin-top: 15px" alt="" (click)="exportExcel()" />
+                </div>
+
               </div>
 
             </div>
@@ -124,7 +128,7 @@
                 </ng-container>
                 <ng-container matColumnDef="cliente">
                   <th *matHeaderCellDef mat-header-cell> Cliente
-                    <mat-select (selectionChange)="applyEmpFilter($event,empFilters[0])"
+                    <mat-select (selectionChange)="applyEmpFilter($event,empFilters[0],0)"
                                 [(value)]="empFilters[0].defaultValue">
                       <mat-option *ngFor="let op of empFilters[0].options" [value]="op">
                         {{op}}
@@ -140,7 +144,7 @@
                 <ng-container matColumnDef="nominativo">
 
                   <th *matHeaderCellDef mat-header-cell >Operatore <br>
-                    <mat-select (selectionChange)="applyEmpFilter($event,empFilters[2])"
+                    <mat-select (selectionChange)="applyEmpFilter($event,empFilters[2],2)"
                                 [(value)]="empFilters[2].defaultValue">
                       <mat-option *ngFor="let op of empFilters[2].options" [value]="op">
                         {{op}}
@@ -159,7 +163,7 @@
                 </ng-container>
                 <ng-container matColumnDef="status">
                   <th *matHeaderCellDef mat-header-cell> Stato
-                    <mat-select (selectionChange)="applyEmpFilter($event,empFilters[1])"
+                    <mat-select (selectionChange)="applyEmpFilter($event,empFilters[1],1)"
                                 [(value)]="empFilters[1].defaultValue">
                       <mat-option *ngFor="let op of empFilters[1].options; let i = index" [value]="op">
                         {{StatoSelect[i]}}

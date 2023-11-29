@@ -2,7 +2,7 @@ import {Component, Inject, OnInit, Renderer2} from '@angular/core';
 import {Direction} from "@angular/cdk/bidi";
 import {DOCUMENT} from "@angular/common";
 import {ActivatedRoute, Router} from "@angular/router";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {UnsubscribeOnDestroyAdapter} from "../../../utils/UnsubscribeOnDestroyAdapter";
 import {ClienteTicket} from "@core/model/Cliente";
@@ -20,6 +20,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {LoginTicketComponent} from "../../../utils/components/modals/login-ticket/login-ticket.component";
 
 
+
 @Component({
   selector: 'app-ticket-layout',
   templateUrl: './ticket-layout.component.html',
@@ -29,6 +30,7 @@ export class TicketLayoutComponent extends UnsubscribeOnDestroyAdapter
   implements OnInit {
 
   public Editor: any = ClassicEditor;
+
   public cliente!: ClienteTicket;
   logoUrl!: SafeUrl;
   isLoading:boolean=false;

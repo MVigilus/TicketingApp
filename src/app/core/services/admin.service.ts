@@ -87,7 +87,7 @@ export class AdminService {
 
   public exportAdminResumeTicket(method:string,params:string[]): Observable<void>  {
     if(method!=''){
-      return this.http.get(`${environment.apiUrl}/${environment.servizi.adminService.exportExcel}P?method=${method}&param1=${params[0]}&param2=${params[1]}`, {
+      return this.http.get(`${environment.apiUrl}/${environment.servizi.adminService.exportExcel}P?method=${method}&param1=${params[0]}&param2=${params[1]}&status=${params[2]}&cliente=${params[3]}&operatore=${params[4]}`, {
         responseType: 'blob',
         observe: 'response'
       }).pipe(map((response: HttpResponse<Blob>) => {
@@ -97,7 +97,7 @@ export class AdminService {
       }));
     }
 
-    return this.http.get(`${environment.apiUrl}/${environment.servizi.adminService.exportExcel}`, {
+    return this.http.get(`${environment.apiUrl}/${environment.servizi.adminService.exportExcel}?status=${params[2]}&cliente=${params[3]}&operatore=${params[4]}`, {
       responseType: 'blob',
       observe: 'response'
     }).pipe(map((response: HttpResponse<Blob>) => {
@@ -112,7 +112,7 @@ export class AdminService {
     const blob = new Blob([(data)?data:""], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     const downloadLink = document.createElement('a');
     downloadLink.href = window.URL.createObjectURL(blob);
-    downloadLink.setAttribute('download', (fileName)?fileName:"");
+    downloadLink.setAttribute('download', "ReportASP");
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
